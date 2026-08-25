@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#10100f" />
+    <meta name="description" content="Emotion-congruent Hokkien speech samples conditioned on RAVDESS references." />
+    <title>Samples—Display · RAVDESS × Hokkien</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="scroll-line" aria-hidden="true"></div>
+    <header class="masthead">
+      <a class="wordmark" href="#top">Samples—Display</a>
+      <span>90 outputs</span>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Emotion-congruent speech synthesis</p>
+        <h1 id="page-title">RAVDESS<br /><em>×</em> Hokkien</h1>
+        <div class="hero-meta">
+          <span>8 emotions</span>
+          <span>15 conditions</span>
+          <span>2 references each</span>
+        </div>
+      </section>
+
+      <nav class="filters" aria-label="Filter samples">
+        <button class="filter active" type="button" data-filter="all">All</button>
+        <button class="filter" type="button" data-filter="normal">Normal</button>
+        <button class="filter" type="button" data-filter="strong">Strong</button>
+      </nav>
+
+      <div id="samples" class="samples"></div>
+    </main>
+
+    <footer>
+      <span>RAVDESS · Actor 01</span>
+      <a href="https://doi.org/10.5281/zenodo.1188976" rel="noreferrer">CC BY-NC-SA 4.0</a>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
