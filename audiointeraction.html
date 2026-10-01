@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f1e9" />
+    <meta name="description" content="When does the released AudioInteraction-3B answer? The same audio with different pauses, and what the model said." />
+    <title>AudioInteraction Timing Test</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="audiointeraction.css" />
+  </head>
+  <body>
+    <div class="scroll-line" aria-hidden="true"></div>
+    <header class="masthead">
+      <a class="wordmark" href="index.html">Samples—Display</a>
+      <span id="count"></span>
+    </header>
+
+    <main id="top">
+      <section class="intro">
+        <h1>When does AudioInteraction answer?</h1>
+        <p>
+          AudioInteraction-3B is a streaming voice model. It hears audio in 400 ms chunks and decides each time
+          whether to <strong>speak</strong> or <strong>stay silent</strong>. We played the released model the same
+          scenarios several times, changing only what fills the pause after each clip. Everything below is the
+          exact audio it was fed and what it said back.
+        </p>
+      </section>
+
+      <section class="findings">
+        <h2>What we found (English, 26 questions per condition)</h2>
+        <ol>
+          <li><strong>With digital silence in the pauses it works:</strong> 23 of 26 questions answered, about 0.1 s after the question ends.</li>
+          <li><strong>Any real noise in the pause stops it.</strong> Room noise at -70 dBFS, which you can barely hear: 8/26. At -55 dBFS: 2/26. At -40 dBFS, an ordinary room: 0/26.</li>
+          <li><strong>Noise under everything, as the paper trains:</strong> 1/26.</li>
+          <li><strong>Their own web demo hides this.</strong> It replaces quiet mic input with zeros, so in a quiet room it answers 19/26. With noise loud enough to get through, 4/26.</li>
+          <li><strong>When it does speak, it also answers things not meant for it:</strong> 60% of fillers ("wah, so hot") and 59% of other people's conversations.</li>
+          <li><strong>In Hokkien</strong> it answers 2/26 even with silent pauses, and the replies have nothing to do with the question.</li>
+        </ol>
+        <p class="legend">
+          <span class="li"><span class="key key-answer"></span>question (should answer)</span>
+          <span class="li"><span class="key key-wait"></span>first half of a question (should wait)</span>
+          <span class="li"><span class="key key-silent"></span>should stay silent</span>
+          <span class="li"><span class="key key-noise"></span>noise clip</span>
+          <span class="li"><span class="dot dot-hit"></span>correct answer</span>
+          <span class="li"><span class="dot dot-wrong"></span>wrong moment</span>
+        </p>
+        <p class="legend-note">Click a timeline or a timestamp to jump there. Audio is the lossless input (16 kHz FLAC).</p>
+      </section>
+
+      <div id="samples" class="samples"></div>
+    </main>
+
+    <script src="audiointeraction-data.js"></script>
+    <script src="audiointeraction.js"></script>
+  </body>
+</html>
