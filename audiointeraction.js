@@ -1,5 +1,6 @@
 const container = document.querySelector("#samples");
-document.querySelector("#count").textContent = `${aiSamples.length} scenarios`;
+const v2dSamples = typeof aiSamplesV2d === "undefined" ? [] : aiSamplesV2d;
+document.querySelector("#count").textContent = `${aiSamples.length + v2dSamples.length} scenarios`;
 
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const pct = (t, d) => `${Math.max(0, Math.min(100, (t / d) * 100)).toFixed(2)}%`;
@@ -34,7 +35,7 @@ const replyList = track => {
   const rows = track.replies.map(r => {
     const lat = r.outcome === "hit" && r.lat != null ? ` (${r.lat >= 0 ? "+" : ""}${r.lat.toFixed(2)} s after the question)` : "";
     return `<li class="${r.outcome === "hit" ? "ok" : "bad"}">${seek(r.t)} <span class="outcome">${esc(OUTCOME[r.outcome] || r.outcome)}${lat}</span>
-      <span class="during">during ${esc(r.during)}</span><q>${esc(r.text)}</q></li>`;
+      <span class="during">during ${esc(r.during)}</span><q>${esc(r.text)}</q>${r.en ? `<span class="gloss">${esc(r.en)}</span>` : ""}</li>`;
   });
   rows.push(...track.missed.map(m =>
     `<li class="miss">${seek(m.t)} <span class="outcome">missed this question</span>
@@ -42,10 +43,10 @@ const replyList = track => {
   return rows.length ? `<ul class="replies">${rows.join("")}</ul>` : `<p class="silent-note">Never spoke.</p>`;
 };
 
-container.innerHTML = aiSamples.map((s, i) => `
+const renderSamples = list => list.map((s, i) => `
   <section class="sample" id="${s.id}">
     <header class="sample-head">
-      <span class="sample-number">${String(i + 1).padStart(2, "0")} / ${aiSamples.length}</span>
+      <span class="sample-number">${String(i + 1).padStart(2, "0")} / ${list.length}</span>
       <h2>${esc(s.title)}</h2>
       <span class="lang">${s.lang === "en" ? "English" : "Hokkien"} · ${s.duration} s</span>
     </header>
@@ -75,6 +76,32 @@ container.innerHTML = aiSamples.map((s, i) => `
       </div>`).join("")}
     </div>
   </section>`).join("");
+
+container.innerHTML = renderSamples(aiSamples);
+const v2dContainer = document.querySelector("#samples-v2d");
+if (v2dContainer) v2dContainer.innerHTML = renderSamples(v2dSamples);
+
+const LABEL = { answers: "answers", on_topic: "on topic", off_topic: "off topic", generic: "generic", empty: "empty" };
+const answersContainer = document.querySelector("#answers-v2d");
+if (answersContainer && typeof aiAnswersV2d !== "undefined") {
+  const reply = (who, lang, r) => `<li>
+      <span class="who">${who}</span>${r.label ? `<span class="label label-${r.label}">${LABEL[r.label] || r.label}</span>` : ""}
+      <q lang="${lang}">${esc(r.text)}</q>${r.en ? `<span class="gloss">${esc(r.en)}</span>` : ""}
+    </li>`;
+  answersContainer.innerHTML = aiAnswersV2d.map((a, i) => `
+    <article class="qa" id="qa-${i + 1}">
+      <header class="qa-head">
+        <span class="sample-number">${String(i + 1).padStart(2, "0")} / ${aiAnswersV2d.length}</span>
+        <p class="qa-q"><span lang="nan-Hant">${esc(a.q_hok)}</span><span class="gloss">${esc(a.q_en)}</span></p>
+      </header>
+      <p class="qa-ref"><span class="who">reference</span>${esc(a.ref_en)}</p>
+      <ul class="qa-replies">
+        ${reply("v2d · Hokkien", "nan-Hant", a.v2d)}
+        ${reply("before (v2c) · Hokkien", "nan-Hant", a.v2c)}
+        ${reply("released model · same question in English", "en", a.release)}
+      </ul>
+    </article>`).join("");
+}
 
 let activeAudio;
 const fmt = sec => `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, "0")}`;

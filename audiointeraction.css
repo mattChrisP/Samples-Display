@@ -157,3 +157,36 @@
   .script td { display: inline; padding: 0 .5rem 0 0; border: 0; }
   .script td:last-child { display: block; }
 }
+
+/* v2d section (Hokkien fine-tune) */
+.findings-next { padding-top: 3rem; }
+.findings-lead { max-width: 46rem; margin: 0 0 1rem; color: var(--muted); font-size: .88rem; line-height: 1.6; }
+.replies .gloss, .qa .gloss { display: block; margin-top: .1rem; color: var(--muted); font-size: .76rem; }
+
+.label {
+  display: inline-block;
+  margin-right: .4rem;
+  padding: 0 .35rem;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  font-size: .62rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.label-answers { color: #1d6b4f; }
+.label-on_topic { color: #8a6a1f; }
+.label-off_topic, .label-generic, .label-empty { color: var(--signal); }
+
+.answers { padding: 0 3vw 4rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 30rem), 1fr)); gap: 0 2.5rem; }
+.qa { padding: 1.4rem 0 1.6rem; border-top: 1px solid rgba(25, 25, 22, .14); min-width: 0; }
+.qa-head { display: flex; gap: .9rem; align-items: baseline; }
+.qa-head .sample-number { font-size: .9rem; flex: none; }
+.qa-q { margin: 0; font-family: var(--serif); font-size: 1rem; line-height: 1.45; overflow-wrap: anywhere; }
+.qa-ref { margin: .7rem 0 .4rem; color: var(--muted); font-size: .78rem; line-height: 1.5; }
+.who { display: inline-block; margin-right: .5rem; color: var(--muted); font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; }
+.qa-replies { margin: 0; padding: 0; list-style: none; font-size: .8rem; line-height: 1.55; }
+.qa-replies li { padding: .5rem 0 .5rem .7rem; border-left: 2px solid var(--line); }
+.qa-replies q { display: block; margin-top: .15rem; font-family: var(--serif); font-size: .9rem; overflow-wrap: anywhere; }
+.qa-replies q::before { content: "“"; }
+.qa-replies q::after { content: "”"; }

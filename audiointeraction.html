@@ -49,9 +49,44 @@
       </section>
 
       <div id="samples" class="samples"></div>
+
+      <section class="findings findings-next" id="v2d">
+        <h2>After fine-tuning on Hokkien (v2d, Hokkien, 26 questions per condition)</h2>
+        <p class="findings-lead">
+          v2d is the released model fine-tuned on Singapore Hokkien, audio encoder included (2026-10-09). Same eval
+          audio as above. Each scenario starts with the released model in digital silence for contrast.
+        </p>
+        <ol>
+          <li><strong>It now answers Hokkien questions:</strong> 19 of 26 with digital silence in the pauses (the released model in English: 23/26; in Hokkien: 2/26), about 0.2 s after the question ends.</li>
+          <li><strong>Unlike the released model, room noise doesn't stop it:</strong> 22/26 at -55 dBFS and 19/26 with noise under everything.</li>
+          <li><strong>The replies are on topic, but often wrong.</strong> Forced to reply at the end of each of the 24 eval questions, 6 replies answer correctly, 15 are on topic but wrong, 3 are off topic (released model in English: 10 / 12 / 2; before this round of tuning: 0 / 7 / 17). The mistakes are mostly numbers and facts.</li>
+          <li><strong>It keeps the released model's habits:</strong> it jumps in at a pause in the middle of a question (9/10; English release 8/10) and answers other people's conversations (76%; English release 59%).</li>
+          <li><strong>On 493 unseen questions of the training kind,</strong> it answers 54% correctly when spoken and 63% when typed.</li>
+        </ol>
+        <p class="legend-note">Hokkien replies have a machine-translated English line under them. Same timeline key as above.</p>
+      </section>
+
+      <div id="samples-v2d" class="samples"></div>
+
+      <section class="findings findings-next" id="v2d-answers">
+        <h2>Every eval question, reply forced at the end of the question</h2>
+        <p class="findings-lead">
+          The 24 eval questions that also exist in English. Each model hears the question in the streaming layout and
+          has to reply at its last chunk, so these show what it says, not when. Labels come from an LLM judge
+          against one reference answer.
+        </p>
+        <p class="legend">
+          <span class="li"><span class="label label-answers">answers</span>answers the question</span>
+          <span class="li"><span class="label label-on_topic">on topic</span>right topic, wrong or no answer</span>
+          <span class="li"><span class="label label-off_topic">off topic</span>about something else</span>
+        </p>
+      </section>
+
+      <div id="answers-v2d" class="answers"></div>
     </main>
 
     <script src="audiointeraction-data.js"></script>
+    <script src="audiointeraction-v2d-data.js"></script>
     <script src="audiointeraction.js"></script>
   </body>
 </html>
