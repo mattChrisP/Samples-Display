@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f4f1e9" />
-    <meta name="description" content="When does the released AudioInteraction-3B answer? The same audio with different pauses, and what the model said." />
+    <meta name="description" content="AudioInteraction-3B in English and after fine-tuning on Singapore Hokkien: does it answer on time, and is the answer right?" />
     <title>AudioInteraction Timing Test</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="audiointeraction.css" />
@@ -18,75 +18,39 @@
 
     <main id="top">
       <section class="intro">
-        <h1>When does AudioInteraction answer?</h1>
+        <h1>When does AudioInteraction answer, and is it right?</h1>
         <p>
           AudioInteraction-3B is a streaming voice model. It hears audio in 400 ms chunks and decides each time
-          whether to <strong>speak</strong> or <strong>stay silent</strong>. We played the released model the same
-          scenarios several times, changing only what fills the pause after each clip. Everything below is the
-          exact audio it was fed and what it said back.
+          whether to <strong>speak</strong> or <strong>stay silent</strong>. Below: the released model in English
+          (the baseline), then the same model fine-tuned on Singapore Hokkien (v2d). Each one gets two tests.
         </p>
-      </section>
-
-      <section class="findings">
-        <h2>What we found (English, 26 questions per condition)</h2>
-        <ol>
-          <li><strong>With digital silence in the pauses it works:</strong> 23 of 26 questions answered, about 0.1 s after the question ends.</li>
-          <li><strong>Any real noise in the pause stops it.</strong> Room noise at -70 dBFS, which you can barely hear: 8/26. At -55 dBFS: 2/26. At -40 dBFS, an ordinary room: 0/26.</li>
-          <li><strong>Noise under everything, as the paper trains:</strong> 1/26.</li>
-          <li><strong>Their own web demo hides this.</strong> It replaces quiet mic input with zeros, so in a quiet room it answers 19/26. With noise loud enough to get through, 4/26.</li>
-          <li><strong>When it does speak, it also answers things not meant for it:</strong> 60% of fillers ("wah, so hot") and 59% of other people's conversations.</li>
-          <li><strong>In Hokkien</strong> it answers 2/26 even with silent pauses, and the replies have nothing to do with the question.</li>
+        <ol class="intro-tests">
+          <li><strong>Online (streaming):</strong> 26 eval questions inside longer audio, with digital silence in the pauses. The model decides by itself when to speak. Does it reply right after the question, and is the reply right?</li>
+          <li><strong>Offline (forced reply):</strong> 24 of those questions, with the reply forced at the end of each question. It doesn't choose when to speak, so this shows only what it says.</li>
         </ol>
+        <p class="legend">
+          <span class="li"><span class="label label-answers">correct</span>answers the question</span>
+          <span class="li"><span class="label label-on_topic">on topic</span>right topic, wrong or no answer</span>
+          <span class="li"><span class="label label-off_topic">wrong</span>off topic, or no reply on time</span>
+        </p>
         <p class="legend">
           <span class="li"><span class="key key-answer"></span>question (should answer)</span>
           <span class="li"><span class="key key-wait"></span>first half of a question (should wait)</span>
           <span class="li"><span class="key key-silent"></span>should stay silent</span>
           <span class="li"><span class="key key-noise"></span>noise clip</span>
-          <span class="li"><span class="dot dot-hit"></span>correct answer</span>
-          <span class="li"><span class="dot dot-wrong"></span>wrong moment</span>
+          <span class="li"><span class="dot dot-hit"></span>reply on time</span>
+          <span class="li"><span class="dot dot-wrong"></span>reply at the wrong moment</span>
         </p>
-        <p class="legend-note">Click a timeline or a timestamp to jump there. Audio is the lossless input (16 kHz FLAC).</p>
-      </section>
-
-      <div id="samples" class="samples"></div>
-
-      <section class="findings findings-next" id="v2d">
-        <h2>After fine-tuning on Hokkien (v2d, Hokkien, 26 questions per condition)</h2>
-        <p class="findings-lead">
-          v2d is the released model fine-tuned on Singapore Hokkien, audio encoder included (2026-10-09). Same eval
-          audio as above. Each scenario starts with the released model in digital silence for contrast.
-        </p>
-        <ol>
-          <li><strong>It now answers Hokkien questions:</strong> 19 of 26 with digital silence in the pauses (the released model in English: 23/26; in Hokkien: 2/26), about 0.2 s after the question ends.</li>
-          <li><strong>Unlike the released model, room noise doesn't stop it:</strong> 22/26 at -55 dBFS and 19/26 with noise under everything.</li>
-          <li><strong>The replies are on topic, but often wrong.</strong> Forced to reply at the end of each of the 24 eval questions, 6 replies answer correctly, 15 are on topic but wrong, 3 are off topic (released model in English: 10 / 12 / 2; before this round of tuning: 0 / 7 / 17). The mistakes are mostly numbers and facts.</li>
-          <li><strong>It keeps the released model's habits:</strong> it jumps in at a pause in the middle of a question (9/10; English release 8/10) and answers other people's conversations (76%; English release 59%).</li>
-          <li><strong>On 493 unseen questions of the training kind,</strong> it answers 54% correctly when spoken and 63% when typed.</li>
-        </ol>
-        <p class="legend-note">Hokkien replies have a machine-translated English line under them. Same timeline key as above.</p>
-      </section>
-
-      <div id="samples-v2d" class="samples"></div>
-
-      <section class="findings findings-next" id="v2d-answers">
-        <h2>Every eval question, reply forced at the end of the question</h2>
-        <p class="findings-lead">
-          The 24 eval questions that also exist in English. Each model hears the question in the streaming layout and
-          has to reply at its last chunk, so these show what it says, not when. Labels come from an LLM judge
-          against one reference answer.
-        </p>
-        <p class="legend">
-          <span class="li"><span class="label label-answers">answers</span>answers the question</span>
-          <span class="li"><span class="label label-on_topic">on topic</span>right topic, wrong or no answer</span>
-          <span class="li"><span class="label label-off_topic">off topic</span>about something else</span>
+        <p class="legend-note">
+          Labels come from an LLM judge that compares each reply with one reference answer. Hokkien replies have a
+          machine-translated English line under them. Click a timeline or a timestamp to jump there.
         </p>
       </section>
 
-      <div id="answers-v2d" class="answers"></div>
+      <div id="sections"></div>
     </main>
 
     <script src="audiointeraction-data.js"></script>
-    <script src="audiointeraction-v2d-data.js"></script>
     <script src="audiointeraction.js"></script>
   </body>
 </html>

@@ -1,13 +1,14 @@
-const container = document.querySelector("#samples");
-const v2dSamples = typeof aiSamplesV2d === "undefined" ? [] : aiSamplesV2d;
-document.querySelector("#count").textContent = `${aiSamples.length + v2dSamples.length} scenarios`;
-
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const pct = (t, d) => `${Math.max(0, Math.min(100, (t / d) * 100)).toFixed(2)}%`;
 const OUTCOME = {
-  hit: "answered", early: "too early (mid-question)", interrupt: "interrupted the question",
+  hit: "replied on time", early: "too early (mid-question)", interrupt: "interrupted the question",
   late: "late", false: "replied to something it should ignore", other: "unclear",
 };
+const LABEL = { answers: "correct", on_topic: "on topic", off_topic: "off topic", generic: "generic", empty: "empty" };
+const labelTag = l => (l ? `<span class="label label-${l}">${LABEL[l] || l}</span>` : "");
+const langAttr = lang => (lang === "hok" ? "nan-Hant" : "en");
+
+document.querySelector("#count").textContent = `${aiSections.length} models`;
 
 const player = (src, label) => `
   <div class="player">
@@ -31,103 +32,122 @@ const strip = (sample, track) => {
 
 const seek = t => `<button class="seek" type="button" data-t="${t}">${t.toFixed(1)} s</button>`;
 
-const replyList = track => {
+const replyList = (track, lang) => {
   const rows = track.replies.map(r => {
-    const lat = r.outcome === "hit" && r.lat != null ? ` (${r.lat >= 0 ? "+" : ""}${r.lat.toFixed(2)} s after the question)` : "";
+    const lat = r.outcome === "hit" && r.lat != null ? ` (${r.lat >= 0 ? "+" : ""}${r.lat.toFixed(2)} s)` : "";
     return `<li class="${r.outcome === "hit" ? "ok" : "bad"}">${seek(r.t)} <span class="outcome">${esc(OUTCOME[r.outcome] || r.outcome)}${lat}</span>
-      <span class="during">during ${esc(r.during)}</span><q>${esc(r.text)}</q>${r.en ? `<span class="gloss">${esc(r.en)}</span>` : ""}</li>`;
+      ${labelTag(r.label)}<q lang="${langAttr(lang)}">${esc(r.text)}</q>${r.en ? `<span class="gloss">${esc(r.en)}</span>` : ""}</li>`;
   });
-  rows.push(...track.missed.map(m =>
-    `<li class="miss">${seek(m.t)} <span class="outcome">missed this question</span>
-      <span class="during">highest P(speak) ${m.pmax.toFixed(2)}</span></li>`));
+  rows.push(...track.missed.map(m => `<li class="miss">${seek(m.t)} <span class="outcome">no reply to this question</span></li>`));
   return rows.length ? `<ul class="replies">${rows.join("")}</ul>` : `<p class="silent-note">Never spoke.</p>`;
 };
 
-const renderSamples = list => list.map((s, i) => `
-  <section class="sample" id="${s.id}">
-    <header class="sample-head">
-      <span class="sample-number">${String(i + 1).padStart(2, "0")} / ${list.length}</span>
-      <h2>${esc(s.title)}</h2>
-      <span class="lang">${s.lang === "en" ? "English" : "Hokkien"} · ${s.duration} s</span>
+const stat = (n, label, cls, of) => `
+  <div class="stat stat-${cls}"><span class="stat-n">${n}<span class="stat-of">/${of}</span></span><span class="stat-label">${label}</span></div>`;
+
+const timingSummary = t => {
+  const w = t.when;
+  const wrong = t.counts.wrong + t.counts.missed;
+  const parts = [t.counts.wrong && `${t.counts.wrong} off topic`, t.counts.missed && `${t.counts.missed} no reply on time`].filter(Boolean);
+  return `<p class="stats-head">When it replies</p>
+    <div class="stats">
+      ${stat(w.on_time, `questions answered on time (median +${w.median_lat.toFixed(2)} s after the question ends)`, "answers", w.n)}
+      ${stat(w.cut_in, "questions it talked into before they ended", "off_topic", w.n)}
+      ${stat(w.ignored, "noise, fillers or other people's talk it replied to (should stay silent)", "off_topic", w.n_ignore)}
+    </div>
+    <p class="stats-note">Answered on time with noise instead of silence in the pauses: ${t.other.map(o => `${esc(o.desc)} ${o.hits}/${o.n}`).join(" · ")}.</p>
+    <p class="stats-head">Is the reply right?</p>
+    <div class="stats">
+      ${stat(t.counts.correct, "correct", "answers", t.n)}
+      ${stat(t.counts.on_topic, "on topic, wrong answer", "on_topic", t.n)}
+      ${stat(wrong, `wrong${parts.length ? ` (${parts.join(", ")})` : ""}`, "off_topic", t.n)}
+    </div>`;
+};
+
+const answersSummary = a => `<div class="stats">
+    ${stat(a.counts.correct, "correct", "answers", a.n)}
+    ${stat(a.counts.on_topic, "on topic, wrong answer", "on_topic", a.n)}
+    ${stat(a.counts.wrong, "wrong (off topic)", "off_topic", a.n)}
+  </div>`;
+
+const timingExample = (s, verdict) => `
+  <article class="sample ex" id="${s.id}">
+    <header class="ex-head">
+      <span class="label label-${verdict === "right" ? "answers" : "off_topic"}">${verdict === "right" ? "right" : "wrong"}</span>
+      <h4>${esc(s.title)}</h4>
     </header>
     <p class="sample-note">${esc(s.note)}</p>
-    <details class="script" open>
+    ${s.excerpt ? `<p class="excerpt-note">Excerpt ${s.excerpt.s.toFixed(1)}–${s.excerpt.e.toFixed(1)} s of a ${s.excerpt.full} s stream; the model heard the whole stream.</p>` : ""}
+    <details class="script">
       <summary>What it hears</summary>
       <table>
-        <thead><tr><th>time</th><th>item</th><th>should</th><th>said</th></tr></thead>
         <tbody>${s.items.map(it => `<tr>
-          <td class="num">${it.s.toFixed(1)}–${it.e.toFixed(1)}</td><td>${esc(it.item)}</td><td>${esc(it.todo)}</td>
-          <td>${it.text ? `<span lang="${s.lang === "hok" ? "nan-Hant" : "en"}">${esc(it.text)}</span>` : "<span class='muted'>(noise)</span>"}
-          ${it.en ? `<span class="gloss">${esc(it.en)}</span>` : ""}</td></tr>`).join("")}</tbody>
+          <td class="num">${it.s.toFixed(1)}–${it.e.toFixed(1)}</td><td>${esc(it.item)}</td>
+          <td>${it.text ? `<span lang="${langAttr(s.lang)}">${esc(it.text)}</span>` : "<span class='muted'>(noise)</span>"}
+          ${it.en && it.en !== it.text ? `<span class="gloss">${esc(it.en)}</span>` : ""}</td></tr>`).join("")}</tbody>
       </table>
     </details>
-    <div class="ai-tracks">
-      ${s.tracks.map(t => `
-      <div class="ai-track" data-sample="${s.id}">
-        <div class="ai-track-head">
-          <span class="track-index">${esc(t.label)}</span>
-          <span class="score ${t.targets && t.hits === t.targets ? "score-ok" : "score-bad"}">${t.hits}/${t.targets} answered</span>
-        </div>
-        <p class="track-note">${esc(t.desc)}</p>
-        ${player(t.audio, t.label)}
-        ${t.sent ? `<div class="sent"><span class="track-index">what the gate sent to the model</span>${player(t.sent, "what the demo sent")}</div>` : ""}
-        ${strip(s, t)}
-        ${replyList(t)}
-      </div>`).join("")}
+    <div class="ai-track">
+      ${player(s.track.audio, s.title)}
+      ${strip(s, s.track)}
+      ${replyList(s.track, s.lang)}
+    </div>
+  </article>`;
+
+const answerExample = (e, lang) => `
+  <article class="qa">
+    <p class="qa-q"><span lang="${langAttr(lang)}">${esc(e.q)}</span>${lang === "hok" ? `<span class="gloss">${esc(e.q_en)}</span>` : ""}</p>
+    <p class="qa-ref"><span class="who">reference</span>${esc(e.ref)}</p>
+    <ul class="qa-replies"><li>
+      ${labelTag(e.label)}<span class="why">${esc(e.why)}</span>
+      <q lang="${langAttr(lang)}">${esc(e.text)}</q>${e.en ? `<span class="gloss">${esc(e.en)}</span>` : ""}
+    </li></ul>
+  </article>`;
+
+document.querySelector("#sections").innerHTML = aiSections.map((sec, i) => `
+  <section class="model-section" id="${sec.id}">
+    <h2><span class="sample-number">${String(i + 1).padStart(2, "0")}</span> ${esc(sec.title)}</h2>
+
+    <div class="part">
+      <p class="mode mode-online">Online</p>
+      <h3>Streaming: it decides when to speak · ${sec.timing.n} questions, digital silence in the pauses</h3>
+      ${timingSummary(sec.timing)}
+      <div class="examples">
+        ${sec.timing.examples.map((s, j) => timingExample(s, j < sec.timing.examples.length - 1 ? "right" : "wrong")).join("")}
+      </div>
+    </div>
+
+    <div class="part">
+      <p class="mode mode-offline">Offline</p>
+      <h3>Reply forced at the end of each question · ${sec.answers.n} questions</h3>
+      <p class="task-note"><strong>Task: spoken question answering (QA).</strong> It hears the same spoken question, in the same
+        streaming layout, and must reply at the question's last chunk. The reply is judged against a reference answer.</p>
+      ${answersSummary(sec.answers)}
+      <div class="answers">${sec.answers.examples.map(e => answerExample(e, sec.lang)).join("")}</div>
     </div>
   </section>`).join("");
-
-container.innerHTML = renderSamples(aiSamples);
-const v2dContainer = document.querySelector("#samples-v2d");
-if (v2dContainer) v2dContainer.innerHTML = renderSamples(v2dSamples);
-
-const LABEL = { answers: "answers", on_topic: "on topic", off_topic: "off topic", generic: "generic", empty: "empty" };
-const answersContainer = document.querySelector("#answers-v2d");
-if (answersContainer && typeof aiAnswersV2d !== "undefined") {
-  const reply = (who, lang, r) => `<li>
-      <span class="who">${who}</span>${r.label ? `<span class="label label-${r.label}">${LABEL[r.label] || r.label}</span>` : ""}
-      <q lang="${lang}">${esc(r.text)}</q>${r.en ? `<span class="gloss">${esc(r.en)}</span>` : ""}
-    </li>`;
-  answersContainer.innerHTML = aiAnswersV2d.map((a, i) => `
-    <article class="qa" id="qa-${i + 1}">
-      <header class="qa-head">
-        <span class="sample-number">${String(i + 1).padStart(2, "0")} / ${aiAnswersV2d.length}</span>
-        <p class="qa-q"><span lang="nan-Hant">${esc(a.q_hok)}</span><span class="gloss">${esc(a.q_en)}</span></p>
-      </header>
-      <p class="qa-ref"><span class="who">reference</span>${esc(a.ref_en)}</p>
-      <ul class="qa-replies">
-        ${reply("v2d · Hokkien", "nan-Hant", a.v2d)}
-        ${reply("before (v2c) · Hokkien", "nan-Hant", a.v2c)}
-        ${reply("released model · same question in English", "en", a.release)}
-      </ul>
-    </article>`).join("");
-}
 
 let activeAudio;
 const fmt = sec => `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, "0")}`;
 
 document.querySelectorAll(".ai-track").forEach(trackNode => {
-  const audios = [...trackNode.querySelectorAll("audio")];
-  const main = audios[0];
+  const main = trackNode.querySelector("audio");
+  const button = trackNode.querySelector(".play");
+  const progress = trackNode.querySelector(".progress");
+  const time = trackNode.querySelector(".time");
   const head = trackNode.querySelector(".playhead");
   const stripNode = trackNode.querySelector(".strip");
   const dur = parseFloat(stripNode.dataset.duration);
 
-  trackNode.querySelectorAll(".player").forEach(node => {
-    const audio = node.querySelector("audio");
-    const button = node.querySelector(".play");
-    const progress = node.querySelector(".progress");
-    const time = node.querySelector(".time");
-    audio.addEventListener("play", () => { button.textContent = "Ⅱ"; button.classList.add("playing"); });
-    audio.addEventListener("pause", () => { button.textContent = "▶"; button.classList.remove("playing"); });
-    audio.addEventListener("timeupdate", () => {
-      progress.value = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
-      time.textContent = fmt(audio.currentTime);
-      head.style.left = pct(audio.currentTime, dur);
-    });
-    audio.addEventListener("ended", () => { audio.currentTime = 0; });
-    progress.addEventListener("input", () => { if (audio.duration) audio.currentTime = (progress.value / 100) * audio.duration; });
+  main.addEventListener("play", () => { button.textContent = "Ⅱ"; button.classList.add("playing"); });
+  main.addEventListener("pause", () => { button.textContent = "▶"; button.classList.remove("playing"); });
+  main.addEventListener("timeupdate", () => {
+    progress.value = main.duration ? (main.currentTime / main.duration) * 100 : 0;
+    time.textContent = fmt(main.currentTime);
+    head.style.left = pct(main.currentTime, dur);
   });
+  main.addEventListener("ended", () => { main.currentTime = 0; });
+  progress.addEventListener("input", () => { if (main.duration) main.currentTime = (progress.value / 100) * main.duration; });
 
   const playAt = t => {
     if (activeAudio && activeAudio !== main) activeAudio.pause();
