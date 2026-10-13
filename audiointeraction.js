@@ -4,7 +4,7 @@ const OUTCOME = {
   hit: "replied on time", early: "too early (mid-question)", interrupt: "interrupted the question",
   late: "late", false: "replied to something it should ignore", other: "unclear",
 };
-const LABEL = { answers: "correct", on_topic: "on topic", off_topic: "off topic", generic: "generic", empty: "empty" };
+const LABEL = { answers: "correct", on_topic: "on topic", off_topic: "off topic", generic: "generic", empty: "empty", missed: "no reply" };
 const labelTag = l => (l ? `<span class="label label-${l}">${LABEL[l] || l}</span>` : "");
 const langAttr = lang => (lang === "hok" ? "nan-Hant" : "en");
 
@@ -127,6 +127,81 @@ document.querySelector("#sections").innerHTML = aiSections.map((sec, i) => `
     </div>
   </section>`).join("");
 
+const PAIR = {
+  both: ["answers", "both right"], en: ["on_topic", "only English right"],
+  hok: ["on_topic", "only Hokkien right"], neither: ["off_topic", "neither right"],
+};
+const SIDE = { en: "English · released model", hok: "Hokkien · v2d" };
+const pairCounts = c => `<div class="stats">${Object.entries(PAIR).map(([k, [cls, label]]) => stat(c[k], label, cls, c.n)).join("")}</div>`;
+const pairHead = e => `<header class="ex-head"><span class="label label-${PAIR[e.outcome][0]}">${PAIR[e.outcome][1]}</span><h4>${esc(e.title)}</h4></header>
+  <p class="sample-note">${esc(e.note)}</p>
+  <p class="qa-q">${esc(e.q_en)}</p>
+  <p class="qa-ref"><span class="who">reference</span>${esc(e.ref)}</p>`;
+
+const pairSide = (s, which) => `
+  <div class="pair-side">
+    <p class="pair-lang">${SIDE[which]}</p>
+    ${which === "hok" ? `<p class="pair-q" lang="nan-Hant">${esc(s.q)}</p>` : ""}
+    ${s.excerpt ? `<p class="excerpt-note">Excerpt ${s.excerpt.s.toFixed(1)}–${s.excerpt.e.toFixed(1)} s of a ${s.excerpt.full} s stream.</p>` : ""}
+    <div class="ai-track">
+      ${player(s.track.audio, SIDE[which])}
+      ${strip(s, s.track)}
+      ${replyList(s.track, s.lang)}
+    </div>
+  </div>`;
+
+const pairTiming = e => `<article class="pair" id="${e.id}">${pairHead(e)}
+  <div class="pair-sides">${pairSide(e.en, "en")}${pairSide(e.hok, "hok")}</div></article>`;
+
+const pairAnswer = e => `<article class="pair">${pairHead(e)}
+  <div class="pair-sides">${["en", "hok"].map(w => `<div class="pair-side">
+    <p class="pair-lang">${SIDE[w]}</p>
+    ${w === "hok" ? `<p class="pair-q" lang="nan-Hant">${esc(e[w].q)}</p>` : ""}
+    ${player(e[w].audio, `${SIDE[w]} question`)}
+    <ul class="qa-replies"><li>${labelTag(e[w].label)}<span class="why">${esc(e[w].why)}</span>
+      <q lang="${langAttr(w)}">${esc(e[w].text)}</q>${e[w].en ? `<span class="gloss">${esc(e[w].en)}</span>` : ""}</li></ul>
+  </div>`).join("")}</div></article>`;
+
+const pairTable = rows => {
+  const shared = rows.reduce((n, r) => ({ ...n, [r.off_id]: (n[r.off_id] || 0) + 1 }), {});
+  const cell = (l, star) => `<td>${l ? labelTag(l) : ""}${star ? "<sup>*</sup>" : ""}</td>`;
+  let group;
+  const body = rows.map(r => {
+    const head = r.outcome !== group
+      ? `<tr class="group"><th colspan="5">${PAIR[r.outcome][1]} online · ${rows.filter(x => x.outcome === r.outcome).length}</th></tr>` : "";
+    group = r.outcome;
+    const star = shared[r.off_id] > 1;
+    return `${head}<tr><td class="pq">${esc(r.q_en)}</td>${cell(r.on_en)}${cell(r.on_hok)}${cell(r.off_en, star)}${cell(r.off_hok, star)}</tr>`;
+  }).join("");
+  return `<div class="pair-table"><table>
+    <thead><tr><th rowspan="2">Question</th><th colspan="2">Online</th><th colspan="2">Offline</th></tr>
+      <tr><th>English</th><th>Hokkien</th><th>English</th><th>Hokkien</th></tr></thead>
+    <tbody>${body}</tbody></table></div>
+    ${Object.values(shared).some(n => n > 1) ? `<p class="stats-note"><sup>*</sup> The two questions of a multi-turn scenario are one offline item.</p>` : ""}`;
+};
+
+document.querySelector("#sections").insertAdjacentHTML("beforeend", `
+  <section class="model-section" id="same-questions">
+    <h2><span class="sample-number">${String(aiSections.length + 1).padStart(2, "0")}</span> Same questions, both models</h2>
+    <p class="task-note">Every question above was asked to both models: in English to the released model and in Hokkien
+      to v2d. Here each question is scored for both, and one question per outcome is played side by side.</p>
+    ${pairTable(aiPairs.table)}
+
+    <div class="part">
+      <p class="mode mode-online">Online</p>
+      <h3>Streaming · ${aiPairs.timing.n} questions, digital silence in the pauses · right = correct reply on time</h3>
+      ${pairCounts({ ...aiPairs.timing.counts, n: aiPairs.timing.n })}
+      <div class="pairs">${aiPairs.timing.examples.map(pairTiming).join("")}</div>
+    </div>
+
+    <div class="part">
+      <p class="mode mode-offline">Offline</p>
+      <h3>Reply forced at the end of each question · ${aiPairs.answers.n} questions</h3>
+      ${pairCounts({ ...aiPairs.answers.counts, n: aiPairs.answers.n })}
+      <div class="pairs">${aiPairs.answers.examples.map(pairAnswer).join("")}</div>
+    </div>
+  </section>`);
+
 let activeAudio;
 const fmt = sec => `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, "0")}`;
 
@@ -159,6 +234,20 @@ document.querySelectorAll(".ai-track").forEach(trackNode => {
     playAt(((e.clientX - box.left) / box.width) * dur + 1);
   });
   trackNode.querySelectorAll(".seek").forEach(b => b.addEventListener("click", () => playAt(parseFloat(b.dataset.t))));
+});
+
+document.querySelectorAll(".pair .player").forEach(node => {
+  if (node.closest(".ai-track")) return;
+  const audio = node.querySelector("audio"), progress = node.querySelector(".progress"), time = node.querySelector(".time");
+  const button = node.querySelector(".play");
+  audio.addEventListener("play", () => { button.textContent = "Ⅱ"; button.classList.add("playing"); });
+  audio.addEventListener("pause", () => { button.textContent = "▶"; button.classList.remove("playing"); });
+  audio.addEventListener("timeupdate", () => {
+    progress.value = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+    time.textContent = fmt(audio.currentTime);
+  });
+  audio.addEventListener("ended", () => { audio.currentTime = 0; });
+  progress.addEventListener("input", () => { if (audio.duration) audio.currentTime = (progress.value / 100) * audio.duration; });
 });
 
 document.addEventListener("click", event => {

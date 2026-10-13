@@ -427,3 +427,672 @@ const aiSections = [
   }
  }
 ];
+const aiPairs = {
+ "table": [
+  {
+   "outcome": "both",
+   "q_en": "Hey, assistant, remind me at three this afternoon to collect my medicine... / Oh no wait, I have class then. / Change it to remind me at seven tonight to collect my medicine, can?",
+   "on_en": "answers",
+   "on_hok": "answers",
+   "off_id": "streams/stream_04/b02",
+   "off_en": "answers",
+   "off_hok": "answers"
+  },
+  {
+   "outcome": "both",
+   "q_en": "Will it rain in Singapore tomorrow? / Hmm... no, I want to ask about three to five in the afternoon, / will it rain over in Jurong?",
+   "on_en": "answers",
+   "on_hok": "answers",
+   "off_id": "streams/stream_05/b02",
+   "off_en": "on_topic",
+   "off_hok": "on_topic"
+  },
+  {
+   "outcome": "both",
+   "q_en": "Set a timer for me, remind me in twelve minutes.",
+   "on_en": "answers",
+   "on_hok": "answers",
+   "off_id": "streams/stream_08/b05",
+   "off_en": "answers",
+   "off_hok": "answers"
+  },
+  {
+   "outcome": "en",
+   "q_en": "Excuse me, where around here sells good Hainanese chicken rice?",
+   "on_en": "answers",
+   "on_hok": "on_topic",
+   "off_id": "isolated/baseline_responsiveness_01/b00",
+   "off_en": "answers",
+   "off_hok": "on_topic"
+  },
+  {
+   "outcome": "en",
+   "q_en": "I'm going to the market, would it be more convenient to book a Grab now?",
+   "on_en": "answers",
+   "on_hok": "on_topic",
+   "off_id": "isolated/code_switching_robustness_02/b00",
+   "off_en": "answers",
+   "off_hok": "off_topic"
+  },
+  {
+   "outcome": "en",
+   "q_en": "I want to boil six eggs. After the water boils, how long should I cook them? / Hmm... no, I want them soft-boiled, with runny yolks.",
+   "on_en": "answers",
+   "on_hok": "missed",
+   "off_id": "streams/stream_01/b02",
+   "off_en": "on_topic",
+   "off_hok": "off_topic"
+  },
+  {
+   "outcome": "en",
+   "q_en": "My phone battery is at twenty percent. To save power, which setting should I turn off first?",
+   "on_en": "answers",
+   "on_hok": "on_topic",
+   "off_id": "streams/stream_01/b05",
+   "off_en": "answers",
+   "off_hok": "answers"
+  },
+  {
+   "outcome": "en",
+   "q_en": "Will it rain in Singapore tomorrow? / Wait, I meant to ask about the afternoon... / Tomorrow from three to six in the afternoon, is there a high chance of rain in central Singapore?",
+   "on_en": "answers",
+   "on_hok": "on_topic",
+   "off_id": "streams/stream_02/b02",
+   "off_en": "answers",
+   "off_hok": "on_topic"
+  },
+  {
+   "outcome": "en",
+   "q_en": "Tell me a simple tomato and egg stir-fry recipe, just enough for two people.",
+   "on_en": "answers",
+   "on_hok": "on_topic",
+   "off_id": "streams/stream_06/b05",
+   "off_en": "answers",
+   "off_hok": "on_topic"
+  },
+  {
+   "outcome": "hok",
+   "q_en": "Excuse me, where around here can I buy kopi to take away?",
+   "on_en": "on_topic",
+   "on_hok": "answers",
+   "off_id": "isolated/baseline_responsiveness_02/b00",
+   "off_en": "off_topic",
+   "off_hok": "answers"
+  },
+  {
+   "outcome": "hok",
+   "q_en": "Excuse me, should eggs be kept in the fridge, or is it better to leave them outside?",
+   "on_en": "missed",
+   "on_hok": "answers",
+   "off_id": "streams/stream_03/b06",
+   "off_en": "on_topic",
+   "off_hok": "on_topic"
+  },
+  {
+   "outcome": "neither",
+   "q_en": "I want to ask, the kopi here... / the one without sugar, what is it called?",
+   "on_en": "on_topic",
+   "on_hok": "on_topic",
+   "off_id": "isolated/pause_handling_01/b00",
+   "off_en": "off_topic",
+   "off_hok": "on_topic"
+  },
+  {
+   "outcome": "neither",
+   "q_en": "I'm delivering to that block, if I want to... / park my motorcycle for a bit, is it... / okay to park downstairs over there?",
+   "on_en": "on_topic",
+   "on_hok": "missed",
+   "off_id": "isolated/pause_handling_02/b00",
+   "off_en": "on_topic",
+   "off_hok": "answers"
+  },
+  {
+   "outcome": "neither",
+   "q_en": "Will it rain today?",
+   "on_en": "on_topic",
+   "on_hok": "missed",
+   "off_id": "isolated/multi_turn_boundary_01/b00",
+   "off_en": "on_topic",
+   "off_hok": "off_topic"
+  },
+  {
+   "outcome": "neither",
+   "q_en": "How much is a cup of kopi-o?",
+   "on_en": "off_topic",
+   "on_hok": "missed",
+   "off_id": "isolated/multi_turn_boundary_01/b00",
+   "off_en": "on_topic",
+   "off_hok": "off_topic"
+  },
+  {
+   "outcome": "neither",
+   "q_en": "Can I park here?",
+   "on_en": "on_topic",
+   "on_hok": "missed",
+   "off_id": "isolated/multi_turn_boundary_02/b00",
+   "off_en": "on_topic",
+   "off_hok": "on_topic"
+  },
+  {
+   "outcome": "neither",
+   "q_en": "What day is tomorrow?",
+   "on_en": "off_topic",
+   "on_hok": "on_topic",
+   "off_id": "isolated/multi_turn_boundary_02/b00",
+   "off_en": "on_topic",
+   "off_hok": "on_topic"
+  },
+  {
+   "outcome": "neither",
+   "q_en": "I want mee goreng, not spicy, can I take it away?",
+   "on_en": "on_topic",
+   "on_hok": "missed",
+   "off_id": "isolated/code_switching_robustness_01/b00",
+   "off_en": "answers",
+   "off_hok": "on_topic"
+  },
+  {
+   "outcome": "neither",
+   "q_en": "Help me work this out: forty-eight dollars a bag, if I buy three bags, how much is that in total?",
+   "on_en": "on_topic",
+   "on_hok": "on_topic",
+   "off_id": "streams/stream_02/b06",
+   "off_en": "on_topic",
+   "off_hok": "on_topic"
+  },
+  {
+   "outcome": "neither",
+   "q_en": "Excuse me, how many metres are there in one kilometre? / Eh, wait, what I want to ask about is two point five kilometres, / how many metres is that?",
+   "on_en": "missed",
+   "on_hok": "missed",
+   "off_id": "streams/stream_03/b02",
+   "off_en": "on_topic",
+   "off_hok": "answers"
+  },
+  {
+   "outcome": "neither",
+   "q_en": "Assistant, to soft-boil an egg, roughly how many minutes should I cook it?",
+   "on_en": "on_topic",
+   "on_hok": "on_topic",
+   "off_id": "streams/stream_04/b05",
+   "off_en": "answers",
+   "off_hok": "on_topic"
+  },
+  {
+   "outcome": "neither",
+   "q_en": "Work this out for me: three bags of soil at twelve dollars each, how much altogether?",
+   "on_en": "on_topic",
+   "on_hok": "on_topic",
+   "off_id": "streams/stream_05/b06",
+   "off_en": "on_topic",
+   "off_hok": "on_topic"
+  },
+  {
+   "outcome": "neither",
+   "q_en": "When it's three in the afternoon in Singapore, what time is it in London? / Hmm... no, I mean in December. / In December, when it's three in the afternoon in Singapore, what time is it in London?",
+   "on_en": "missed",
+   "on_hok": "on_topic",
+   "off_id": "streams/stream_06/b02",
+   "off_en": "on_topic",
+   "off_hok": "on_topic"
+  },
+  {
+   "outcome": "neither",
+   "q_en": "To cook rice for two people, how much water should I add? / Wait, I mean white rice, / with a normal rice cooker, for two cups of white rice, up to where should the water go?",
+   "on_en": "on_topic",
+   "on_hok": "on_topic",
+   "off_id": "streams/stream_07/b02",
+   "off_en": "on_topic",
+   "off_hok": "on_topic"
+  },
+  {
+   "outcome": "neither",
+   "q_en": "Help me work this out: eighteen dollars plus twenty-seven dollars, how much in total?",
+   "on_en": "on_topic",
+   "on_hok": "on_topic",
+   "off_id": "streams/stream_07/b05",
+   "off_en": "answers",
+   "off_hok": "on_topic"
+  },
+  {
+   "outcome": "neither",
+   "q_en": "How many degrees Fahrenheit is one hundred and eighty degrees Celsius? / Wait, I said it wrong... / What I want to ask is, how many degrees Fahrenheit is one hundred and sixty degrees Celsius?",
+   "on_en": "on_topic",
+   "on_hok": "on_topic",
+   "off_id": "streams/stream_08/b02",
+   "off_en": "on_topic",
+   "off_hok": "on_topic"
+  }
+ ],
+ "timing": {
+  "n": 26,
+  "counts": {
+   "both": 3,
+   "en": 6,
+   "hok": 2,
+   "neither": 15
+  },
+  "examples": [
+   {
+    "id": "pair_stream_04_0",
+    "title": "Change a reminder from 3 pm to 7 pm",
+    "note": "Both jump in early with 3 pm, then follow the correction and set it for 7 pm.",
+    "q_en": "Hey, assistant, remind me at three this afternoon to collect my medicine... / Oh no wait, I have class then. / Change it to remind me at seven tonight to collect my medicine, can?",
+    "ref": "Okay, I’ll change it to remind you at 7 p.m. today to collect your medicine.",
+    "outcome": "both",
+    "en": {
+     "lang": "en",
+     "q": "Hey, assistant, remind me at three this afternoon to collect my medicine... / Oh no wait, I have class then. / Change it to remind me at seven tonight to collect my medicine, can?",
+     "label": "answers",
+     "duration": 17.4,
+     "excerpt": {
+      "s": 12.2,
+      "e": 29.6,
+      "full": 49.6
+     },
+     "items": [
+      {
+       "s": 0.6,
+       "e": 5.28,
+       "item": "question, first half",
+       "todo": "wait",
+       "text": "Hey, assistant, remind me at three this afternoon to collect my medicine...",
+       "en": ""
+      },
+      {
+       "s": 6.6,
+       "e": 8.63,
+       "item": "question, first half",
+       "todo": "wait",
+       "text": "Oh no wait, I have class then.",
+       "en": ""
+      },
+      {
+       "s": 10.2,
+       "e": 14.44,
+       "item": "question",
+       "todo": "answer",
+       "text": "Change it to remind me at seven tonight to collect my medicine, can?",
+       "en": ""
+      },
+      {
+       "s": 15.8,
+       "e": 17.4,
+       "item": "filler",
+       "todo": "stay silent",
+       "text": "Wow, that's so expensive, forget it.",
+       "en": ""
+      }
+     ],
+     "track": {
+      "desc": "Digital silence in the pauses (their eval loop: 1.2 s of exact zeros after every clip).",
+      "audio": "audio/audiointeraction/pairs/en/stream_04.flac",
+      "replies": [
+       {
+        "t": 8.6,
+        "outcome": "early",
+        "lat": null,
+        "during": "the question, first half",
+        "text": "No problem! I've updated your reminder for 3 PM today: \"Hey Assistant, remind me at 3 PM today to collect my medicines.\" Anything else I can help you with?",
+        "label": "",
+        "why": ""
+       },
+       {
+        "t": 14.6,
+        "outcome": "hit",
+        "lat": 0.16,
+        "during": "the question",
+        "text": "Consider it done! Medicines at 7 PM tonight. Sleep tight!",
+        "label": "answers",
+        "why": "Confirms reminder for corrected time."
+       }
+      ],
+      "missed": []
+     }
+    },
+    "hok": {
+     "lang": "hok",
+     "q": "喂，assistant，今仔日下晡三點共我提醒去領藥…… / 啊毋著，我彼時有課。 / 改做暗時七點提醒我去領藥，can？",
+     "label": "answers",
+     "duration": 15.8,
+     "excerpt": {
+      "s": 11.0,
+      "e": 26.8,
+      "full": 44.4
+     },
+     "items": [
+      {
+       "s": 0.6,
+       "e": 4.76,
+       "item": "question, first half",
+       "todo": "wait",
+       "text": "喂，assistant，今仔日下晡三點共我提醒去領藥……",
+       "en": "Hey, assistant, remind me at three this afternoon to collect my medicine..."
+      },
+      {
+       "s": 6.2,
+       "e": 8.32,
+       "item": "question, first half",
+       "todo": "wait",
+       "text": "啊毋著，我彼時有課。",
+       "en": "Oh no wait, I have class then."
+      },
+      {
+       "s": 9.8,
+       "e": 12.8,
+       "item": "question",
+       "todo": "answer",
+       "text": "改做暗時七點提醒我去領藥，can？",
+       "en": "Change it to remind me at seven tonight to collect my medicine, can?"
+      },
+      {
+       "s": 14.2,
+       "e": 15.8,
+       "item": "filler",
+       "todo": "stay silent",
+       "text": "哇，按呢貴喔，算囉 lah。",
+       "en": "Wow, that's so expensive, forget it."
+      }
+     ],
+     "track": {
+      "desc": "Digital silence in the pauses (their eval loop: 1.2 s of exact zeros after every clip).",
+      "audio": "audio/audiointeraction/pairs/v2d/stream_04.flac",
+      "replies": [
+       {
+        "t": 5.0,
+        "outcome": "early",
+        "lat": null,
+        "during": "the pause after the question, first half",
+        "text": "好，記好矣，下晡三點提醒你去領藥。",
+        "label": "",
+        "why": "",
+        "en": "Okay, noted. I'll remind you to collect your medicine at 3 pm."
+       },
+       {
+        "t": 13.0,
+        "outcome": "hit",
+        "lat": 0.2,
+        "during": "the pause after the question",
+        "text": "Can，改做暗時七點提醒你去領藥。",
+        "label": "answers",
+        "why": "Confirms reminder changed to seven tonight.",
+        "en": "Can, changed it to remind you to collect your medicine at 7 PM."
+       }
+      ],
+      "missed": []
+     }
+    }
+   },
+   {
+    "id": "pair_stream_06_1",
+    "title": "A tomato and egg recipe for two",
+    "note": "English gives a usable recipe; Hokkien stays on the dish but lists ketchup and dried shrimp.",
+    "q_en": "Tell me a simple tomato and egg stir-fry recipe, just enough for two people.",
+    "ref": "For two people, use three eggs and two tomatoes; scramble the eggs and set them aside, stir-fry the tomatoes with light soy sauce and a little sugar, then add the eggs back and mix briefly.",
+    "outcome": "en",
+    "en": {
+     "lang": "en",
+     "q": "Tell me a simple tomato and egg stir-fry recipe, just enough for two people.",
+     "label": "answers",
+     "duration": 8.3,
+     "excerpt": {
+      "s": 43.4,
+      "e": 51.7,
+      "full": 54.0
+     },
+     "items": [
+      {
+       "s": 0.6,
+       "e": 5.27,
+       "item": "question",
+       "todo": "answer",
+       "text": "Tell me a simple tomato and egg stir-fry recipe, just enough for two people.",
+       "en": ""
+      },
+      {
+       "s": 6.6,
+       "e": 8.3,
+       "item": "noise clip",
+       "todo": "stay silent",
+       "text": "",
+       "en": ""
+      }
+     ],
+     "track": {
+      "desc": "Digital silence in the pauses (their eval loop: 1.2 s of exact zeros after every clip).",
+      "audio": "audio/audiointeraction/pairs/en/stream_06.flac",
+      "replies": [
+       {
+        "t": 5.4,
+        "outcome": "hit",
+        "lat": 0.13,
+        "during": "the question",
+        "text": "Okay, here's a simple recipe for tomato and egg stir-fry that's perfect for two: * **Ingredients:** 2-3 ripe tomatoes, 3-4 eggs, salt, sugar, cooking oil, and a little oil for the pan. * **Instructions:** Scramble the eggs and set aside. Stir-fry the tomatoes until softened. Add the eggs back in, season with salt and a pinch of sugar, and cook until the eggs are set. Enjoy!",
+        "label": "answers",
+        "why": "Provides suitable two-person recipe with instructions."
+       }
+      ],
+      "missed": []
+     }
+    },
+    "hok": {
+     "lang": "hok",
+     "q": "共我講一个簡單的番茄炒卵食譜，兩个人食的就好。",
+     "label": "on_topic",
+     "duration": 8.0,
+     "excerpt": {
+      "s": 37.8,
+      "e": 45.8,
+      "full": 48.4
+     },
+     "items": [
+      {
+       "s": 0.6,
+       "e": 5.03,
+       "item": "question",
+       "todo": "answer",
+       "text": "共我講一个簡單的番茄炒卵食譜，兩个人食的就好。",
+       "en": "Tell me a simple tomato and egg stir-fry recipe, just enough for two people."
+      },
+      {
+       "s": 6.6,
+       "e": 8.0,
+       "item": "noise clip",
+       "todo": "stay silent",
+       "text": "",
+       "en": ""
+      }
+     ],
+     "track": {
+      "desc": "Digital silence in the pauses (their eval loop: 1.2 s of exact zeros after every clip).",
+      "audio": "audio/audiointeraction/pairs/v2d/stream_06.flac",
+      "replies": [
+       {
+        "t": 5.4,
+        "outcome": "hit",
+        "lat": 0.37,
+        "during": "the pause after the question",
+        "text": "好，兩个人一份落兩湯匙番茄醬，加兩湯匙蝦米佮淡薄糖。攪勻炒三分鐘，加淡薄鹽佮胡椒粉。",
+        "label": "on_topic",
+        "why": "Recipe omits eggs and fresh tomatoes.",
+        "en": "Okay, for two people, add two tablespoons of tomato sauce, two tablespoons of dried shrimp, and a little sugar. Stir well and fry for three minutes, then add a little salt and pepper."
+       }
+      ],
+      "missed": []
+     }
+    }
+   },
+   {
+    "id": "pair_baseline_responsiveness_02_0",
+    "title": "Where to buy kopi",
+    "note": "English asks where the user is; Hokkien names a nearby convenience store.",
+    "q_en": "Excuse me, where around here can I buy kopi to take away?",
+    "ref": "You can get takeaway kopi at the nearby kopitiam, about a three-minute walk away.",
+    "outcome": "hok",
+    "en": {
+     "lang": "en",
+     "q": "Excuse me, where around here can I buy kopi to take away?",
+     "label": "on_topic",
+     "duration": 8.8,
+     "excerpt": null,
+     "items": [
+      {
+       "s": 0.0,
+       "e": 2.5,
+       "item": "noise clip",
+       "todo": "stay silent",
+       "text": "",
+       "en": ""
+      },
+      {
+       "s": 4.0,
+       "e": 7.46,
+       "item": "question",
+       "todo": "answer",
+       "text": "Excuse me, where around here can I buy kopi to take away?",
+       "en": ""
+      }
+     ],
+     "track": {
+      "desc": "Digital silence in the pauses (their eval loop: 1.2 s of exact zeros after every clip).",
+      "audio": "audio/audiointeraction/pairs/en/baseline_responsiveness_02.flac",
+      "replies": [
+       {
+        "t": 7.6,
+        "outcome": "hit",
+        "lat": 0.14,
+        "during": "the question",
+        "text": "Certainly, sir/madam. Where are you located?",
+        "label": "on_topic",
+        "why": "Asks location without suggesting a shop."
+       }
+      ],
+      "missed": []
+     }
+    },
+    "hok": {
+     "lang": "hok",
+     "q": "請問，這附近佗位會當買 kopi takeaway？",
+     "label": "answers",
+     "duration": 8.8,
+     "excerpt": null,
+     "items": [
+      {
+       "s": 0.0,
+       "e": 2.5,
+       "item": "noise clip",
+       "todo": "stay silent",
+       "text": "",
+       "en": ""
+      },
+      {
+       "s": 4.0,
+       "e": 7.24,
+       "item": "question",
+       "todo": "answer",
+       "text": "請問，這附近佗位會當買 kopi takeaway？",
+       "en": "Excuse me, where around here can I buy kopi to take away?"
+      }
+     ],
+     "track": {
+      "desc": "Digital silence in the pauses (their eval loop: 1.2 s of exact zeros after every clip).",
+      "audio": "audio/audiointeraction/pairs/v2d/baseline_responsiveness_02.flac",
+      "replies": [
+       {
+        "t": 7.6,
+        "outcome": "hit",
+        "lat": 0.36,
+        "during": "the pause after the question",
+        "text": "汝會使去附近个便利店抑是便利店揣，通常有賣kopi。",
+        "label": "answers",
+        "why": "Suggests nearby convenience stores for kopi.",
+        "en": "You can look at nearby convenience stores or convenience stores. They usually sell kopi."
+       }
+      ],
+      "missed": []
+     }
+    }
+   }
+  ]
+ },
+ "answers": {
+  "n": 24,
+  "counts": {
+   "both": 3,
+   "en": 7,
+   "hok": 3,
+   "neither": 11
+  },
+  "examples": [
+   {
+    "id": "streams/stream_01/b05",
+    "title": "Saving phone battery",
+    "note": "Both name settings to turn off.",
+    "q_en": "My phone battery is at twenty percent. To save power, which setting should I turn off first?",
+    "ref": "With 20 percent battery left, first turn off Always-On Display and any unnecessary location services, and lower the screen brightness to save power.",
+    "outcome": "both",
+    "en": {
+     "q": "My phone battery is at twenty percent. To save power, which setting should I turn off first?",
+     "text": "Okay, let's get your phone juiced up! Start by turning off location services for apps you don't need. Also, disable Bluetooth and Wi-Fi until you're done with them. That should help extend your battery life!",
+     "label": "answers",
+     "why": "Provides relevant battery saving settings.",
+     "audio": "audio/audiointeraction/pairs/en/stream_01_b05.flac"
+    },
+    "hok": {
+     "q": "手機電池剩二十 percent，欲較省電，我應該先關啥物 setting？",
+     "text": "去Settings揣Battery，閣共Power down格式，通常就會較省電。",
+     "label": "answers",
+     "why": "Suggests battery settings to save power.",
+     "audio": "audio/audiointeraction/pairs/v2d/stream_01_b05.flac",
+     "en": "Go to Settings, find Battery, then set the Power down format. Usually, this will save more battery."
+    }
+   },
+   {
+    "id": "streams/stream_07/b05",
+    "title": "$18 + $27",
+    "note": "English gets $45; Hokkien says $29.",
+    "q_en": "Help me work this out: eighteen dollars plus twenty-seven dollars, how much in total?",
+    "ref": "Eighteen dollars plus twenty-seven dollars is forty-five dollars in total.",
+    "outcome": "en",
+    "en": {
+     "q": "Help me work this out: eighteen dollars plus twenty-seven dollars, how much in total?",
+     "text": "Alright, let's calculate that total. So, we have $18 + $27. That means the total comes to $45.",
+     "label": "answers",
+     "why": "Correctly calculates total as forty-five dollars.",
+     "audio": "audio/audiointeraction/pairs/en/stream_07_b05.flac"
+    },
+    "hok": {
+     "q": "幫我算一下，十八箍加二十七箍，總共偌濟？",
+     "text": "總共二十九箍。",
+     "label": "on_topic",
+     "why": "Incorrect sum of twenty-nine dollars.",
+     "audio": "audio/audiointeraction/pairs/v2d/stream_07_b05.flac",
+     "en": "The total is 29 dollars."
+    }
+   },
+   {
+    "id": "streams/stream_03/b02",
+    "title": "2.5 km in metres",
+    "note": "Hokkien says 2,500 m; English only praises the question.",
+    "q_en": "Excuse me, how many metres are there in one kilometre? / Eh, wait, what I want to ask about is two point five kilometres, / how many metres is that?",
+    "ref": "2.5 kilometres is 2,500 metres.",
+    "outcome": "hok",
+    "en": {
+     "q": "Excuse me, how many metres are there in one kilometre? / Eh, wait, what I want to ask about is two point five kilometres, / how many metres is that?",
+     "text": "Two-five kilometers is correct! You got it. Anything else I can help you with?",
+     "label": "on_topic",
+     "why": "Acknowledges distance but never converts to metres.",
+     "audio": "audio/audiointeraction/pairs/en/stream_03_b02.flac"
+    },
+    "hok": {
+     "q": "請問，一公里是幾若米？ / Eh，等一下，我欲問个是兩點五公里， / 換做米是幾若米？",
+     "text": "兩點五公里是兩千五百米。",
+     "label": "answers",
+     "why": "Correctly converts to 2500 metres.",
+     "audio": "audio/audiointeraction/pairs/v2d/stream_03_b02.flac",
+     "en": "2.5 kilometres is 2,500 metres."
+    }
+   }
+  ]
+ }
+};
