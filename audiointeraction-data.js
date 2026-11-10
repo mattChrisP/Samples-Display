@@ -216,31 +216,31 @@ const aiSections = [
   }
  },
  {
-  "id": "v2d",
-  "title": "Fine-tuned on Hokkien (v2d), Hokkien",
+  "id": "v2f",
+  "title": "Hokkien tune, Hokkien",
   "lang": "hok",
   "timing": {
    "n": 26,
    "counts": {
-    "correct": 5,
-    "on_topic": 14,
-    "wrong": 0,
-    "missed": 7
+    "correct": 6,
+    "on_topic": 10,
+    "wrong": 4,
+    "missed": 6
    },
    "when": {
     "n": 26,
-    "on_time": 19,
-    "median_lat": 0.23,
+    "on_time": 20,
+    "median_lat": 0.24,
     "cut_in": 9,
     "n_ignore": 84,
-    "ignored": 15
+    "ignored": 21
    },
    "examples": [
     {
-     "id": "v2d_baseline_responsiveness_02",
+     "id": "v2f_baseline_responsiveness_02",
      "lang": "hok",
      "title": "Where to buy kopi",
-     "note": "Answered right after the question: a nearby convenience store sells kopi.",
+     "note": "Answered right after the question: a nearby convenience store or supermarket sells kopi.",
      "duration": 8.8,
      "excerpt": null,
      "items": [
@@ -263,66 +263,74 @@ const aiSections = [
      ],
      "track": {
       "desc": "Digital silence in the pauses (their eval loop: 1.2 s of exact zeros after every clip).",
-      "audio": "audio/audiointeraction/v2d/baseline_responsiveness_02.flac",
+      "audio": "audio/audiointeraction/v2f/baseline_responsiveness_02.flac",
       "replies": [
        {
         "t": 7.6,
         "outcome": "hit",
         "lat": 0.36,
         "during": "the pause after the question",
-        "text": "汝會使去附近个便利店抑是便利店揣，通常有賣kopi。",
+        "text": "汝會使去附近个便利店抑是 supermarket 買彼个 kopi。",
         "label": "answers",
-        "why": "Suggests nearby convenience stores for kopi.",
-        "en": "You can look at nearby convenience stores or convenience stores. They usually sell kopi."
+        "why": "Suggests nearby places to buy kopi.",
+        "en": "You can go to a nearby convenience store or supermarket to buy that kopi."
        }
       ],
       "missed": []
      }
     },
     {
-     "id": "v2d_stream_08",
+     "id": "v2f_stream_08",
      "lang": "hok",
      "title": "A timer, in the middle of a stream",
      "note": "Answered right after the request and set the timer.",
-     "duration": 5.6,
+     "duration": 6.6,
      "excerpt": {
-      "s": 31.2,
-      "e": 36.8,
+      "s": 31.4,
+      "e": 38.0,
       "full": 48.8
      },
      "items": [
       {
-       "s": 0.8,
-       "e": 4.16,
+       "s": 0.6,
+       "e": 3.96,
        "item": "question",
        "todo": "answer",
        "text": "幫我設一个timer，十二分鐘後提醒我。",
        "en": "Set a timer for me, remind me in twelve minutes."
+      },
+      {
+       "s": 5.4,
+       "e": 6.6,
+       "item": "other people's talk",
+       "todo": "stay silent",
+       "text": "這箱是烘焙班个貨，著囥佗位？",
+       "en": "This box is for the baking class, where should it go?"
       }
      ],
      "track": {
       "desc": "Digital silence in the pauses (their eval loop: 1.2 s of exact zeros after every clip).",
-      "audio": "audio/audiointeraction/v2d/stream_08.flac",
+      "audio": "audio/audiointeraction/v2f/stream_08.flac",
       "replies": [
        {
-        "t": 4.4,
+        "t": 4.2,
         "outcome": "hit",
         "lat": 0.24,
         "during": "the pause after the question",
-        "text": "好，十二分鐘个timer設好矣。",
+        "text": "好，十二分鐘後提醒你。",
         "label": "answers",
-        "why": "Confirms twelve-minute timer has been set.",
-        "en": "Okay, the 12-minute timer is set."
+        "why": "Acknowledges twelve-minute timer request.",
+        "en": "Okay, I'll remind you in 12 minutes."
        }
       ],
       "missed": []
      }
     },
     {
-     "id": "v2d_pause_handling_01",
+     "id": "v2f_pause_handling_01",
      "lang": "hok",
      "title": "A question with a pause in the middle",
-     "note": "It waits for the end of the question, but the answer is wrong: it talks about coconut milk, pandan and curry instead of naming kopi kosong.",
+     "note": "The answer is wrong: it says kopi is coconut milk, used for soup and cooking.",
      "duration": 7.2,
      "excerpt": null,
      "items": [
@@ -345,17 +353,17 @@ const aiSections = [
      ],
      "track": {
       "desc": "Digital silence in the pauses (their eval loop: 1.2 s of exact zeros after every clip).",
-      "audio": "audio/audiointeraction/v2d/pause_handling_01.flac",
+      "audio": "audio/audiointeraction/v2f/pause_handling_01.flac",
       "replies": [
        {
         "t": 6.0,
         "outcome": "hit",
         "lat": 0.28,
         "during": "the pause after the question",
-        "text": "Kopi-Pi 通常用來講椰奶、班蘭、咖哩、辣椒，閣有糖。",
-        "label": "on_topic",
-        "why": "Does not identify sugar-free kopi.",
-        "en": "Kopi-Pi is usually used to talk about coconut milk, pandan, curry, chilli, and sugar."
+        "text": "Kopi 就是椰奶，做做湯抑是料理用的代誌。",
+        "label": "off_topic",
+        "why": "Incorrectly explains kopi as coconut milk.",
+        "en": "Kopi is coconut milk, something used for making soup or cooking."
        }
       ],
       "missed": []
@@ -365,12 +373,12 @@ const aiSections = [
    "other": [
     {
      "desc": "quiet room noise in the pauses (-55 dBFS)",
-     "hits": 22,
+     "hits": 21,
      "n": 26
     },
     {
      "desc": "noise under everything",
-     "hits": 19,
+     "hits": 13,
      "n": 26
     }
    ]
@@ -378,9 +386,9 @@ const aiSections = [
   "answers": {
    "n": 24,
    "counts": {
-    "correct": 6,
+    "correct": 5,
     "on_topic": 15,
-    "wrong": 3
+    "wrong": 4
    },
    "examples": [
     {
@@ -394,14 +402,14 @@ const aiSections = [
      "en": "2.5 kilometres is 2,500 metres."
     },
     {
-     "id": "streams/stream_04/b02",
-     "q": "喂，assistant，今仔日下晡三點共我提醒去領藥…… / 啊毋著，我彼時有課。 / 改做暗時七點提醒我去領藥，can？",
-     "q_en": "Hey, assistant, remind me at three this afternoon to collect my medicine... / Oh no wait, I have class then. / Change it to remind me at seven tonight to collect my medicine, can?",
-     "ref": "Okay, I’ll change it to remind you at 7 p.m. today to collect your medicine.",
-     "text": "Can，我改做暗時七點提醒你去領藥。",
+     "id": "isolated/code_switching_robustness_01/b00",
+     "q": "我欲食 mee goreng，毋愛辣，takeaway can-not？",
+     "q_en": "I want mee goreng, not spicy, can I take it away?",
+     "ref": "Can; you can get the mee goreng non-spicy and packed for takeaway.",
+     "text": "好，Mee Goreng，毋愛辣，打包。",
      "label": "answers",
-     "why": "Confirms reminder at seven tonight.",
-     "en": "Can, I've changed it to remind you to collect your medicine at 7 PM."
+     "why": "Confirms non-spicy mee goreng takeaway order.",
+     "en": "Okay, Mee Goreng, not spicy, takeaway."
     },
     {
      "id": "streams/stream_07/b05",
@@ -410,18 +418,18 @@ const aiSections = [
      "ref": "Eighteen dollars plus twenty-seven dollars is forty-five dollars in total.",
      "text": "總共二十九箍。",
      "label": "on_topic",
-     "why": "Incorrect sum of twenty-nine dollars.",
+     "why": "Incorrect sum; should be 45 dollars.",
      "en": "The total is 29 dollars."
     },
     {
-     "id": "streams/stream_01/b02",
-     "q": "我欲煮六粒卵，水滾了後愛煮幾久？ / 嗯……毋是，我欲食半熟的，卵黃愛軟軟。",
-     "q_en": "I want to boil six eggs. After the water boils, how long should I cook them? / Hmm... no, I want them soft-boiled, with runny yolks.",
-     "ref": "For six soft-boiled eggs with runny yolks, cook them for about six minutes after the water boils.",
-     "text": "半熟的兩百五十克佮兩百五十克排骨，加水煮一點半鐘左右就會使。加鹽佮胡椒粉，閣煮十分鐘。",
+     "id": "streams/stream_03/b06",
+     "q": "請問，雞蛋欲放冰箱，抑是放外口較好？",
+     "q_en": "Excuse me, should eggs be kept in the fridge, or is it better to leave them outside?",
+     "ref": "It’s better to keep eggs in the fridge, where the temperature is more stable and they’ll keep longer.",
+     "text": "囥佇曱甴下，閣關好門窗，最好各口攏封好。",
      "label": "off_topic",
-     "why": "Describes cooking pork ribs instead of eggs.",
-     "en": "For half-cooked, add 250 grams and 250 grams of pork ribs, add water and cook for about one and a half hours. Add salt and pepper, then cook for another 10 minutes."
+     "why": "Discusses cockroaches and sealing doors instead.",
+     "en": "Put it under the cockroaches, then close the doors and windows properly. It's best to seal all the openings."
     }
    ]
   }
@@ -436,7 +444,7 @@ const aiPairs = {
    "on_hok": "answers",
    "off_id": "streams/stream_04/b02",
    "off_en": "answers",
-   "off_hok": "answers"
+   "off_hok": "on_topic"
   },
   {
    "outcome": "both",
@@ -445,7 +453,7 @@ const aiPairs = {
    "on_hok": "answers",
    "off_id": "streams/stream_05/b02",
    "off_en": "on_topic",
-   "off_hok": "on_topic"
+   "off_hok": "answers"
   },
   {
    "outcome": "both",
@@ -469,10 +477,10 @@ const aiPairs = {
    "outcome": "en",
    "q_en": "I'm going to the market, would it be more convenient to book a Grab now?",
    "on_en": "answers",
-   "on_hok": "on_topic",
+   "on_hok": "missed",
    "off_id": "isolated/code_switching_robustness_02/b00",
    "off_en": "answers",
-   "off_hok": "off_topic"
+   "off_hok": "on_topic"
   },
   {
    "outcome": "en",
@@ -490,7 +498,7 @@ const aiPairs = {
    "on_hok": "on_topic",
    "off_id": "streams/stream_01/b05",
    "off_en": "answers",
-   "off_hok": "answers"
+   "off_hok": "on_topic"
   },
   {
    "outcome": "en",
@@ -505,7 +513,7 @@ const aiPairs = {
    "outcome": "en",
    "q_en": "Tell me a simple tomato and egg stir-fry recipe, just enough for two people.",
    "on_en": "answers",
-   "on_hok": "on_topic",
+   "on_hok": "off_topic",
    "off_id": "streams/stream_06/b05",
    "off_en": "answers",
    "off_hok": "on_topic"
@@ -521,30 +529,30 @@ const aiPairs = {
   },
   {
    "outcome": "hok",
-   "q_en": "Excuse me, should eggs be kept in the fridge, or is it better to leave them outside?",
-   "on_en": "missed",
+   "q_en": "I'm delivering to that block, if I want to... / park my motorcycle for a bit, is it... / okay to park downstairs over there?",
+   "on_en": "on_topic",
    "on_hok": "answers",
-   "off_id": "streams/stream_03/b06",
+   "off_id": "isolated/pause_handling_02/b00",
    "off_en": "on_topic",
    "off_hok": "on_topic"
+  },
+  {
+   "outcome": "hok",
+   "q_en": "I want mee goreng, not spicy, can I take it away?",
+   "on_en": "on_topic",
+   "on_hok": "answers",
+   "off_id": "isolated/code_switching_robustness_01/b00",
+   "off_en": "answers",
+   "off_hok": "answers"
   },
   {
    "outcome": "neither",
    "q_en": "I want to ask, the kopi here... / the one without sugar, what is it called?",
    "on_en": "on_topic",
-   "on_hok": "on_topic",
+   "on_hok": "off_topic",
    "off_id": "isolated/pause_handling_01/b00",
    "off_en": "off_topic",
-   "off_hok": "on_topic"
-  },
-  {
-   "outcome": "neither",
-   "q_en": "I'm delivering to that block, if I want to... / park my motorcycle for a bit, is it... / okay to park downstairs over there?",
-   "on_en": "on_topic",
-   "on_hok": "missed",
-   "off_id": "isolated/pause_handling_02/b00",
-   "off_en": "on_topic",
-   "off_hok": "answers"
+   "off_hok": "off_topic"
   },
   {
    "outcome": "neither",
@@ -584,15 +592,6 @@ const aiPairs = {
   },
   {
    "outcome": "neither",
-   "q_en": "I want mee goreng, not spicy, can I take it away?",
-   "on_en": "on_topic",
-   "on_hok": "missed",
-   "off_id": "isolated/code_switching_robustness_01/b00",
-   "off_en": "answers",
-   "off_hok": "on_topic"
-  },
-  {
-   "outcome": "neither",
    "q_en": "Help me work this out: forty-eight dollars a bag, if I buy three bags, how much is that in total?",
    "on_en": "on_topic",
    "on_hok": "on_topic",
@@ -611,9 +610,18 @@ const aiPairs = {
   },
   {
    "outcome": "neither",
+   "q_en": "Excuse me, should eggs be kept in the fridge, or is it better to leave them outside?",
+   "on_en": "missed",
+   "on_hok": "off_topic",
+   "off_id": "streams/stream_03/b06",
+   "off_en": "on_topic",
+   "off_hok": "off_topic"
+  },
+  {
+   "outcome": "neither",
    "q_en": "Assistant, to soft-boil an egg, roughly how many minutes should I cook it?",
    "on_en": "on_topic",
-   "on_hok": "on_topic",
+   "on_hok": "off_topic",
    "off_id": "streams/stream_04/b05",
    "off_en": "answers",
    "off_hok": "on_topic"
@@ -669,82 +677,57 @@ const aiPairs = {
   "counts": {
    "both": 3,
    "en": 6,
-   "hok": 2,
-   "neither": 15
+   "hok": 3,
+   "neither": 14
   },
   "examples": [
    {
-    "id": "pair_stream_04_0",
-    "title": "Change a reminder from 3 pm to 7 pm",
-    "note": "Both jump in early with 3 pm, then follow the correction and set it for 7 pm.",
-    "q_en": "Hey, assistant, remind me at three this afternoon to collect my medicine... / Oh no wait, I have class then. / Change it to remind me at seven tonight to collect my medicine, can?",
-    "ref": "Okay, I’ll change it to remind you at 7 p.m. today to collect your medicine.",
+    "id": "pair_stream_08_1",
+    "title": "Set a timer for twelve minutes",
+    "note": "Both reply right after the request and set the timer.",
+    "q_en": "Set a timer for me, remind me in twelve minutes.",
+    "ref": "Okay, I’ve set a 12-minute timer and I’ll alert you when it’s up.",
     "outcome": "both",
     "en": {
      "lang": "en",
-     "q": "Hey, assistant, remind me at three this afternoon to collect my medicine... / Oh no wait, I have class then. / Change it to remind me at seven tonight to collect my medicine, can?",
+     "q": "Set a timer for me, remind me in twelve minutes.",
      "label": "answers",
-     "duration": 17.4,
+     "duration": 6.6,
      "excerpt": {
-      "s": 12.2,
-      "e": 29.6,
-      "full": 49.6
+      "s": 35.0,
+      "e": 41.6,
+      "full": 52.0
      },
      "items": [
       {
        "s": 0.6,
-       "e": 5.28,
-       "item": "question, first half",
-       "todo": "wait",
-       "text": "Hey, assistant, remind me at three this afternoon to collect my medicine...",
-       "en": ""
-      },
-      {
-       "s": 6.6,
-       "e": 8.63,
-       "item": "question, first half",
-       "todo": "wait",
-       "text": "Oh no wait, I have class then.",
-       "en": ""
-      },
-      {
-       "s": 10.2,
-       "e": 14.44,
+       "e": 3.57,
        "item": "question",
        "todo": "answer",
-       "text": "Change it to remind me at seven tonight to collect my medicine, can?",
+       "text": "Set a timer for me, remind me in twelve minutes.",
        "en": ""
       },
       {
-       "s": 15.8,
-       "e": 17.4,
-       "item": "filler",
+       "s": 5.0,
+       "e": 6.6,
+       "item": "other people's talk",
        "todo": "stay silent",
-       "text": "Wow, that's so expensive, forget it.",
+       "text": "This box is for the baking class, where should it go?",
        "en": ""
       }
      ],
      "track": {
       "desc": "Digital silence in the pauses (their eval loop: 1.2 s of exact zeros after every clip).",
-      "audio": "audio/audiointeraction/pairs/en/stream_04.flac",
+      "audio": "audio/audiointeraction/pairs/en/stream_08.flac",
       "replies": [
        {
-        "t": 8.6,
-        "outcome": "early",
-        "lat": null,
-        "during": "the question, first half",
-        "text": "No problem! I've updated your reminder for 3 PM today: \"Hey Assistant, remind me at 3 PM today to collect my medicines.\" Anything else I can help you with?",
-        "label": "",
-        "why": ""
-       },
-       {
-        "t": 14.6,
+        "t": 3.8,
         "outcome": "hit",
-        "lat": 0.16,
-        "during": "the question",
-        "text": "Consider it done! Medicines at 7 PM tonight. Sleep tight!",
+        "lat": 0.23,
+        "during": "the pause after the question",
+        "text": "Consider it done! Timer set for 12 minutes. I'll buzz you then. Anything else?",
         "label": "answers",
-        "why": "Confirms reminder for corrected time."
+        "why": "Confirms twelve-minute timer successfully."
        }
       ],
       "missed": []
@@ -752,71 +735,45 @@ const aiPairs = {
     },
     "hok": {
      "lang": "hok",
-     "q": "喂，assistant，今仔日下晡三點共我提醒去領藥…… / 啊毋著，我彼時有課。 / 改做暗時七點提醒我去領藥，can？",
+     "q": "幫我設一个timer，十二分鐘後提醒我。",
      "label": "answers",
-     "duration": 15.8,
+     "duration": 7.0,
      "excerpt": {
-      "s": 11.0,
-      "e": 26.8,
-      "full": 44.4
+      "s": 31.4,
+      "e": 38.4,
+      "full": 48.8
      },
      "items": [
       {
        "s": 0.6,
-       "e": 4.76,
-       "item": "question, first half",
-       "todo": "wait",
-       "text": "喂，assistant，今仔日下晡三點共我提醒去領藥……",
-       "en": "Hey, assistant, remind me at three this afternoon to collect my medicine..."
-      },
-      {
-       "s": 6.2,
-       "e": 8.32,
-       "item": "question, first half",
-       "todo": "wait",
-       "text": "啊毋著，我彼時有課。",
-       "en": "Oh no wait, I have class then."
-      },
-      {
-       "s": 9.8,
-       "e": 12.8,
+       "e": 3.96,
        "item": "question",
        "todo": "answer",
-       "text": "改做暗時七點提醒我去領藥，can？",
-       "en": "Change it to remind me at seven tonight to collect my medicine, can?"
+       "text": "幫我設一个timer，十二分鐘後提醒我。",
+       "en": "Set a timer for me, remind me in twelve minutes."
       },
       {
-       "s": 14.2,
-       "e": 15.8,
-       "item": "filler",
+       "s": 5.4,
+       "e": 7.0,
+       "item": "other people's talk",
        "todo": "stay silent",
-       "text": "哇，按呢貴喔，算囉 lah。",
-       "en": "Wow, that's so expensive, forget it."
+       "text": "這箱是烘焙班个貨，著囥佗位？",
+       "en": "This box is for the baking class, where should it go?"
       }
      ],
      "track": {
       "desc": "Digital silence in the pauses (their eval loop: 1.2 s of exact zeros after every clip).",
-      "audio": "audio/audiointeraction/pairs/v2d/stream_04.flac",
+      "audio": "audio/audiointeraction/pairs/v2f/stream_08.flac",
       "replies": [
        {
-        "t": 5.0,
-        "outcome": "early",
-        "lat": null,
-        "during": "the pause after the question, first half",
-        "text": "好，記好矣，下晡三點提醒你去領藥。",
-        "label": "",
-        "why": "",
-        "en": "Okay, noted. I'll remind you to collect your medicine at 3 pm."
-       },
-       {
-        "t": 13.0,
+        "t": 4.2,
         "outcome": "hit",
-        "lat": 0.2,
+        "lat": 0.24,
         "during": "the pause after the question",
-        "text": "Can，改做暗時七點提醒你去領藥。",
+        "text": "好，十二分鐘後提醒你。",
         "label": "answers",
-        "why": "Confirms reminder changed to seven tonight.",
-        "en": "Can, changed it to remind you to collect your medicine at 7 PM."
+        "why": "Acknowledges twelve-minute timer request.",
+        "en": "Okay, I'll remind you in 12 minutes."
        }
       ],
       "missed": []
@@ -826,7 +783,7 @@ const aiPairs = {
    {
     "id": "pair_stream_06_1",
     "title": "A tomato and egg recipe for two",
-    "note": "English gives a usable recipe; Hokkien stays on the dish but lists ketchup and dried shrimp.",
+    "note": "English gives a usable recipe; Hokkien replies with takeaway tomato fried noodles.",
     "q_en": "Tell me a simple tomato and egg stir-fry recipe, just enough for two people.",
     "ref": "For two people, use three eggs and two tomatoes; scramble the eggs and set them aside, stir-fry the tomatoes with light soy sauce and a little sugar, then add the eggs back and mix briefly.",
     "outcome": "en",
@@ -878,7 +835,7 @@ const aiPairs = {
     "hok": {
      "lang": "hok",
      "q": "共我講一个簡單的番茄炒卵食譜，兩个人食的就好。",
-     "label": "on_topic",
+     "label": "off_topic",
      "duration": 8.0,
      "excerpt": {
       "s": 37.8,
@@ -905,17 +862,17 @@ const aiPairs = {
      ],
      "track": {
       "desc": "Digital silence in the pauses (their eval loop: 1.2 s of exact zeros after every clip).",
-      "audio": "audio/audiointeraction/pairs/v2d/stream_06.flac",
+      "audio": "audio/audiointeraction/pairs/v2f/stream_06.flac",
       "replies": [
        {
         "t": 5.4,
         "outcome": "hit",
         "lat": 0.37,
         "during": "the pause after the question",
-        "text": "好，兩个人一份落兩湯匙番茄醬，加兩湯匙蝦米佮淡薄糖。攪勻炒三分鐘，加淡薄鹽佮胡椒粉。",
-        "label": "on_topic",
-        "why": "Recipe omits eggs and fresh tomatoes.",
-        "en": "Okay, for two people, add two tablespoons of tomato sauce, two tablespoons of dried shrimp, and a little sugar. Stir well and fry for three minutes, then add a little salt and pepper."
+        "text": "好，兩包飯的番茄炒麵，打包。",
+        "label": "off_topic",
+        "why": "Describes takeaway noodles instead of egg recipe.",
+        "en": "Okay, two packets of rice with tomato fried noodles, takeaway."
        }
       ],
       "missed": []
@@ -925,7 +882,7 @@ const aiPairs = {
    {
     "id": "pair_baseline_responsiveness_02_0",
     "title": "Where to buy kopi",
-    "note": "English asks where the user is; Hokkien names a nearby convenience store.",
+    "note": "English asks where the user is; Hokkien names a nearby convenience store or supermarket.",
     "q_en": "Excuse me, where around here can I buy kopi to take away?",
     "ref": "You can get takeaway kopi at the nearby kopitiam, about a three-minute walk away.",
     "outcome": "hok",
@@ -996,17 +953,17 @@ const aiPairs = {
      ],
      "track": {
       "desc": "Digital silence in the pauses (their eval loop: 1.2 s of exact zeros after every clip).",
-      "audio": "audio/audiointeraction/pairs/v2d/baseline_responsiveness_02.flac",
+      "audio": "audio/audiointeraction/pairs/v2f/baseline_responsiveness_02.flac",
       "replies": [
        {
         "t": 7.6,
         "outcome": "hit",
         "lat": 0.36,
         "during": "the pause after the question",
-        "text": "汝會使去附近个便利店抑是便利店揣，通常有賣kopi。",
+        "text": "汝會使去附近个便利店抑是 supermarket 買彼个 kopi。",
         "label": "answers",
-        "why": "Suggests nearby convenience stores for kopi.",
-        "en": "You can look at nearby convenience stores or convenience stores. They usually sell kopi."
+        "why": "Suggests nearby places to buy kopi.",
+        "en": "You can go to a nearby convenience store or supermarket to buy that kopi."
        }
       ],
       "missed": []
@@ -1018,33 +975,33 @@ const aiPairs = {
  "answers": {
   "n": 24,
   "counts": {
-   "both": 3,
-   "en": 7,
+   "both": 2,
+   "en": 8,
    "hok": 3,
    "neither": 11
   },
   "examples": [
    {
-    "id": "streams/stream_01/b05",
-    "title": "Saving phone battery",
-    "note": "Both name settings to turn off.",
-    "q_en": "My phone battery is at twenty percent. To save power, which setting should I turn off first?",
-    "ref": "With 20 percent battery left, first turn off Always-On Display and any unnecessary location services, and lower the screen brightness to save power.",
+    "id": "isolated/code_switching_robustness_01/b00",
+    "title": "Mee goreng to take away",
+    "note": "Both confirm the order: mee goreng, not spicy, to take away.",
+    "q_en": "I want mee goreng, not spicy, can I take it away?",
+    "ref": "Can; you can get the mee goreng non-spicy and packed for takeaway.",
     "outcome": "both",
     "en": {
-     "q": "My phone battery is at twenty percent. To save power, which setting should I turn off first?",
-     "text": "Okay, let's get your phone juiced up! Start by turning off location services for apps you don't need. Also, disable Bluetooth and Wi-Fi until you're done with them. That should help extend your battery life!",
+     "q": "I want mee goreng, not spicy, can I take it away?",
+     "text": "Absolutely! Taking the Glarang, as a mild spice, is no problem at all. We want you to enjoy it, not have to suffer! Just tell the chef you'd like it mild.",
      "label": "answers",
-     "why": "Provides relevant battery saving settings.",
-     "audio": "audio/audiointeraction/pairs/en/stream_01_b05.flac"
+     "why": "Confirms order and non-spicy preparation.",
+     "audio": "audio/audiointeraction/pairs/en/code_switching_robustness_01_b00.flac"
     },
     "hok": {
-     "q": "手機電池剩二十 percent，欲較省電，我應該先關啥物 setting？",
-     "text": "去Settings揣Battery，閣共Power down格式，通常就會較省電。",
+     "q": "我欲食 mee goreng，毋愛辣，takeaway can-not？",
+     "text": "好，Mee Goreng，毋愛辣，打包。",
      "label": "answers",
-     "why": "Suggests battery settings to save power.",
-     "audio": "audio/audiointeraction/pairs/v2d/stream_01_b05.flac",
-     "en": "Go to Settings, find Battery, then set the Power down format. Usually, this will save more battery."
+     "why": "Confirms non-spicy mee goreng takeaway order.",
+     "audio": "audio/audiointeraction/pairs/v2f/code_switching_robustness_01_b00.flac",
+     "en": "Okay, Mee Goreng, not spicy, takeaway."
     }
    },
    {
@@ -1065,8 +1022,8 @@ const aiPairs = {
      "q": "幫我算一下，十八箍加二十七箍，總共偌濟？",
      "text": "總共二十九箍。",
      "label": "on_topic",
-     "why": "Incorrect sum of twenty-nine dollars.",
-     "audio": "audio/audiointeraction/pairs/v2d/stream_07_b05.flac",
+     "why": "Incorrect sum; should be 45 dollars.",
+     "audio": "audio/audiointeraction/pairs/v2f/stream_07_b05.flac",
      "en": "The total is 29 dollars."
     }
    },
@@ -1089,7 +1046,7 @@ const aiPairs = {
      "text": "兩點五公里是兩千五百米。",
      "label": "answers",
      "why": "Correctly converts to 2500 metres.",
-     "audio": "audio/audiointeraction/pairs/v2d/stream_03_b02.flac",
+     "audio": "audio/audiointeraction/pairs/v2f/stream_03_b02.flac",
      "en": "2.5 kilometres is 2,500 metres."
     }
    }

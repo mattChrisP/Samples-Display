@@ -131,7 +131,7 @@ const PAIR = {
   both: ["answers", "both right"], en: ["on_topic", "only English right"],
   hok: ["on_topic", "only Hokkien right"], neither: ["off_topic", "neither right"],
 };
-const SIDE = { en: "English · released model", hok: "Hokkien · v2d" };
+const SIDE = { en: "English · released model", hok: "Hokkien · Hokkien tune" };
 const pairCounts = c => `<div class="stats">${Object.entries(PAIR).map(([k, [cls, label]]) => stat(c[k], label, cls, c.n)).join("")}</div>`;
 const pairHead = e => `<header class="ex-head"><span class="label label-${PAIR[e.outcome][0]}">${PAIR[e.outcome][1]}</span><h4>${esc(e.title)}</h4></header>
   <p class="sample-note">${esc(e.note)}</p>
@@ -184,7 +184,7 @@ document.querySelector("#sections").insertAdjacentHTML("beforeend", `
   <section class="model-section" id="same-questions">
     <h2><span class="sample-number">${String(aiSections.length + 1).padStart(2, "0")}</span> Same questions, both models</h2>
     <p class="task-note">Every question above was asked to both models: in English to the released model and in Hokkien
-      to v2d. Here each question is scored for both, and one question per outcome is played side by side.</p>
+      to the Hokkien tune. Here each question is scored for both, and one question per outcome is played side by side.</p>
     ${pairTable(aiPairs.table)}
 
     <div class="part">
