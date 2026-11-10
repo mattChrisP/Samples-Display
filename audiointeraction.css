@@ -216,3 +216,6 @@
 #quick-cats .part + .part { margin-top: 2rem; }
 .pair-sides.three { grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
 .pair-table + .stats-note { margin: .4rem 0 2.2rem; }
+.pair-sides.five { grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: 1rem 1.6rem; }
+.gap-players { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: .4rem 2rem; margin: .6rem 0 0; }
+#quick-gap .qa-q .gloss { display: block; margin-top: .2rem; }

@@ -254,8 +254,20 @@ if (typeof aiQuick !== "undefined") {
       <h2><span class="sample-number">${String(n0).padStart(2, "0")}</span> Spoken QA, three Hokkien tunes</h2>
       <div class="pairs">${aiQuick.qa.examples.map(qaPair).join("")}</div>
     </section>
+    <section class="model-section" id="quick-gap">
+      <h2><span class="sample-number">${String(n0 + 1).padStart(2, "0")}</span> Spoken QA, English vs Hokkien</h2>
+      <div class="stats">${aiQuick.gap.cols.map(c => stat(c.correct, esc(c.label), "answers", c.n)).join("")}</div>
+      <div class="pairs">${aiQuick.gap.examples.map(e => `<article class="pair">
+        <p class="qa-q">${esc(e.q)}<span class="gloss" lang="nan-Hant">${esc(e.q_hok)}</span></p>
+        <div class="gap-players">${player(e.audio.en, "English question")}${player(e.audio.hok, "Hokkien question")}</div>
+        <p class="qa-ref"><span class="who">reference</span>${esc(e.ref)}</p>
+        <div class="pair-sides five">${e.replies.map((r, k) => `<div class="pair-side">
+          <p class="pair-lang">${esc(aiQuick.gap.cols[k].label)}</p>
+          <ul class="qa-replies"><li>${r.right ? tag("answers", "right") : tag("off_topic", "wrong")}${reply(r.text, r.en)}</li></ul>
+        </div>`).join("")}</div></article>`).join("")}</div>
+    </section>
     <section class="model-section" id="quick-cats">
-      <h2><span class="sample-number">${String(n0 + 1).padStart(2, "0")}</span> ${esc(names.v2f)}, by category</h2>
+      <h2><span class="sample-number">${String(n0 + 2).padStart(2, "0")}</span> ${esc(names.v2f)}, by category</h2>
       ${aiQuick.cats.map(c => `<div class="part">
         <h3>${esc(c.num)} · ${esc(c.name)} · ${c.mode}</h3>
         <div class="pair-sides">${c.examples.map(e => (e.kind === "online" ? onlineEx(e) : offlineEx(e))).join("")}</div>

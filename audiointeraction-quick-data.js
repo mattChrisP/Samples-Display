@@ -109,6 +109,296 @@ const aiQuick = {
    }
   ]
  },
+ "gap": {
+  "cols": [
+   {
+    "label": "Released model · English",
+    "correct": 7,
+    "n": 20
+   },
+   {
+    "label": "Hokkien tune · English",
+    "correct": 9,
+    "n": 20
+   },
+   {
+    "label": "Hokkien tune · Hokkien, spoken",
+    "correct": 2,
+    "n": 20
+   },
+   {
+    "label": "Hokkien tune · Hokkien, typed",
+    "correct": 4,
+    "n": 20
+   },
+   {
+    "label": "Hokkien tune · Mandarin, typed",
+    "correct": 3,
+    "n": 20
+   }
+  ],
+  "examples": [
+   {
+    "id": "gap_12",
+    "q": "Who painted the famous painting \"Mona Lisa\"?",
+    "q_hok": "彼幅出名个畫《Mona Lisa》是啥人畫个？",
+    "ref": "Leonardo da Vinci",
+    "audio": {
+     "en": "audio/audiointeraction_quick/gap/12_en.flac",
+     "hok": "audio/audiointeraction_quick/gap/12_hok.flac"
+    },
+    "replies": [
+     {
+      "text": "Ah, a classic question! The Mona Lisa was painted by Leonardo da Vinci.",
+      "right": true,
+      "en": ""
+     },
+     {
+      "text": "Ah, the enigmatic Mona Lisa! That masterpiece was painted by Leonardo da Vinci, of course.",
+      "right": true,
+      "en": ""
+     },
+     {
+      "text": "彼幅出名的畫，是意大利文艺复兴时期的彼若人物莫娜·列莎。",
+      "right": false,
+      "en": "That famous painting is of that person Mona Lisa from the Italian Renaissance."
+     },
+     {
+      "text": "彼幅画是意大利文艺复兴时期的彼若翁·列奥纳多·达·芬奇的手手。",
+      "right": true,
+      "en": "That painting is the handiwork of that old man Leonardo da Vinci from the Italian Renaissance."
+     },
+     {
+      "text": "梵高佮梅奇亞高佇二十世纪九〇四年份，共一張佇兩千萬。",
+      "right": false,
+      "en": "Van Gogh and Meijiago, in the year 904 of the twentieth century, shared one picture at twenty million."
+     }
+    ]
+   },
+   {
+    "id": "gap_31",
+    "q": "Which bird can fly faster than any other bird?",
+    "q_hok": "佗一種鳥飛甲比其他鳥攏較緊？",
+    "ref": "Peregrine falcon",
+    "audio": {
+     "en": "audio/audiointeraction_quick/gap/31_en.flac",
+     "hok": "audio/audiointeraction_quick/gap/31_hok.flac"
+    },
+    "replies": [
+     {
+      "text": "That's a fun question! The answer is: the peregrine falcon. It's a type of eagles soaring at speeds exceeding 450 miles per hour! Pretty speedy, right?",
+      "right": true,
+      "en": ""
+     },
+     {
+      "text": "That would be the Arctic Tern! It can reach speeds of over 240 miles per hour. Pretty speedy, huh?",
+      "right": false,
+      "en": ""
+     },
+     {
+      "text": "蝴蝶佮蛾類通常較緊，因為伊們比花別个受歡迎。",
+      "right": false,
+      "en": "Butterflies and moths are usually faster because they are more popular than flowers."
+     },
+     {
+      "text": "鳥飛甲有起幼的時陣，會使飛較短，飛的時陣會較捷。",
+      "right": false,
+      "en": "When birds fly until they become young, they can fly shorter distances and fly more frequently."
+     },
+     {
+      "text": "有的鳥會飞得真緊，真濟塗鵡，毋過毋是逐隻攏會破壞。",
+      "right": false,
+      "en": "Some birds can fly very fast, many ground parrots, but not every one of them can cause destruction."
+     }
+    ]
+   },
+   {
+    "id": "gap_36",
+    "q": "Who was the first woman to fly solo across the Atlantic Ocean?",
+    "q_hok": "頭一个家己駛飛機飛過大西洋的查某人是啥人？",
+    "ref": "Earhart",
+    "audio": {
+     "en": "audio/audiointeraction_quick/gap/36_en.flac",
+     "hok": "audio/audiointeraction_quick/gap/36_hok.flac"
+    },
+    "replies": [
+     {
+      "text": "That would be Amelia Earhart, a true pioneer! She flew solo across the Atlantic in 1927, showcasing the incredible spirit of women at that time.",
+      "right": true,
+      "en": ""
+     },
+     {
+      "text": "Ah, a great question! That would be Amelia Earhart. She flew solo across the Atlantic in 1927, becoming the first woman to fly around the globe!",
+      "right": true,
+      "en": ""
+     },
+     {
+      "text": "彼是是日本人，對一九四二年開始大力佔領南亞。",
+      "right": false,
+      "en": "They are Japanese, and began occupying South Asia aggressively in 1942."
+     },
+     {
+      "text": "彼个是富南航空的首機，主要飛徙南極洲佮南美洲。",
+      "right": false,
+      "en": "That is the first aircraft of Funan Airlines, mainly flying between Antarctica and South America."
+     },
+     {
+      "text": "第一位独自驾驶飞机飞太平洋彼爿的女性是加爾比亞彼爿的薩拉米。",
+      "right": false,
+      "en": "The first woman to fly a plane alone across the Pacific Ocean was Salami from that side of Galbia."
+     }
+    ]
+   },
+   {
+    "id": "gap_73",
+    "q": "What is the largest city in the Midwest?",
+    "q_hok": "美國中西部上大的城市是佗一个？",
+    "ref": "Chicago",
+    "audio": {
+     "en": "audio/audiointeraction_quick/gap/73_en.flac",
+     "hok": "audio/audiointeraction_quick/gap/73_hok.flac"
+    },
+    "replies": [
+     {
+      "text": "The largest city in the Midwest is Chicago.",
+      "right": true,
+      "en": ""
+     },
+     {
+      "text": "The largest city in the Midwest is Kansas City.",
+      "right": false,
+      "en": ""
+     },
+     {
+      "text": "是阿拉斯加州，因為西亞是古國的古國之一。",
+      "right": false,
+      "en": "It is Alaska, because West Asia is one of the ancient countries of ancient countries."
+     },
+     {
+      "text": "美國中西部上大的城市是阿拉斯加州的首府。",
+      "right": false,
+      "en": "The largest city in the American Midwest is the capital of Alaska."
+     },
+     {
+      "text": "美國中西部土地面積上大，是新墨西哥州。",
+      "right": false,
+      "en": "The largest land area in the American Midwest is New Mexico."
+     }
+    ]
+   },
+   {
+    "id": "gap_110",
+    "q": "What is the capital of South Korea?",
+    "q_hok": "南韓个首都是佗落？",
+    "ref": "Seoul",
+    "audio": {
+     "en": "audio/audiointeraction_quick/gap/110_en.flac",
+     "hok": "audio/audiointeraction_quick/gap/110_hok.flac"
+    },
+    "replies": [
+     {
+      "text": "The capital of South Korea is Seoul.",
+      "right": true,
+      "en": ""
+     },
+     {
+      "text": "The capital of South Korea is Seoul.",
+      "right": true,
+      "en": ""
+     },
+     {
+      "text": "南韓个首都是首爾。",
+      "right": true,
+      "en": "The capital of South Korea is Seoul."
+     },
+     {
+      "text": "韓國个首都是首爾。",
+      "right": true,
+      "en": "The capital of South Korea is Seoul."
+     },
+     {
+      "text": "韓國个首都是首爾。",
+      "right": true,
+      "en": "The capital of South Korea is Seoul."
+     }
+    ]
+   },
+   {
+    "id": "gap_189",
+    "q": "What is the chemical symbol for nitrogen? ",
+    "q_hok": "氮个化學符號是啥物？",
+    "ref": "N",
+    "audio": {
+     "en": "audio/audiointeraction_quick/gap/189_en.flac",
+     "hok": "audio/audiointeraction_quick/gap/189_hok.flac"
+    },
+    "replies": [
+     {
+      "text": "That's a good one! The chemical symbol for nitrogen is N. Simple, right?",
+      "right": true,
+      "en": ""
+     },
+     {
+      "text": "That would be N, in the symbol of the element.",
+      "right": true,
+      "en": ""
+     },
+     {
+      "text": "Hdrogen 个號碼是 H，意思就是無氧氣。",
+      "right": false,
+      "en": "Hdrogen's symbol is H, which means there is no oxygen."
+     },
+     {
+      "text": "氮化號是N，就是氮的號碼。",
+      "right": true,
+      "en": "The nitrogen chemical symbol is N, which is nitrogen's symbol."
+     },
+     {
+      "text": "氮的化学符号是N。",
+      "right": true,
+      "en": "The chemical symbol for nitrogen is N."
+     }
+    ]
+   },
+   {
+    "id": "gap_293",
+    "q": "What is 10 divided by 2? ",
+    "q_hok": "十除二是偌濟？",
+    "ref": "Five",
+    "audio": {
+     "en": "audio/audiointeraction_quick/gap/293_en.flac",
+     "hok": "audio/audiointeraction_quick/gap/293_hok.flac"
+    },
+    "replies": [
+     {
+      "text": "5",
+      "right": true,
+      "en": ""
+     },
+     {
+      "text": "Ten divided by two is five.",
+      "right": true,
+      "en": ""
+     },
+     {
+      "text": "十除二是五。",
+      "right": true,
+      "en": "Ten divided by two is five."
+     },
+     {
+      "text": "十除二是五。",
+      "right": true,
+      "en": "Ten divided by two is five."
+     },
+     {
+      "text": "十除以二是五。",
+      "right": true,
+      "en": "Ten divided by two is five."
+     }
+    ]
+   }
+  ]
+ },
  "cats": [
   {
    "num": "1",
