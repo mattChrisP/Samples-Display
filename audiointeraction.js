@@ -202,6 +202,67 @@ document.querySelector("#sections").insertAdjacentHTML("beforeend", `
     </div>
   </section>`);
 
+if (typeof aiQuick !== "undefined") {
+  const VERDICT = { right: ["answers", "right"], wrong: ["off_topic", "wrong"], counted: ["on_topic", "scored right"] };
+  const tag = (cls, text) => `<span class="label label-${cls}">${esc(text)}</span>`;
+  const verdictTag = e => {
+    if (e.verdict === "score") {
+      const n = parseInt(e.result.match(/\d/)[0], 10);
+      return tag(n >= 4 ? "answers" : n === 3 ? "on_topic" : "off_topic", e.result);
+    }
+    const [cls, text] = VERDICT[e.verdict];
+    return `${tag(cls, text)}${e.result ? `<span class="why">${esc(e.result)}</span>` : ""}`;
+  };
+  const hok = (text, en) => `<span lang="nan-Hant">${esc(text)}</span>${en && en !== text ? `<span class="gloss">${esc(en)}</span>` : ""}`;
+  const reply = (text, en) => `<q lang="nan-Hant">${esc(text)}</q>${en ? `<span class="gloss">${esc(en)}</span>` : ""}`;
+  const names = Object.fromEntries(aiQuick.qa.variants.map(v => [v.key, v.name]));
+
+  const qaPair = e => `<article class="pair">
+    <p class="qa-q">${hok(e.q, e.q_en)}</p>
+    ${player(e.audio, "question")}
+    <p class="qa-ref"><span class="who">reference</span>${esc(e.ref)}</p>
+    <div class="pair-sides three">${e.replies.map(r => `<div class="pair-side">
+      <p class="pair-lang">${esc(names[r.key])}</p>
+      <ul class="qa-replies"><li>${r.right ? tag("answers", "right") : tag("off_topic", "wrong")}${reply(r.text, r.en)}</li></ul>
+    </div>`).join("")}</div></article>`;
+
+  const ROW = { hit: "ok", false: "bad", ack: "ack" };
+  const MARK = { hit: "mark-hit", false: "mark-wrong", ack: "mark-ack" };
+  const inputs = list => `<ul class="q-inputs">${list.join("")}</ul>`;
+  const onlineEx = e => `<div class="pair-side">
+    <p class="pair-lang">${verdictTag(e)}</p>
+    <div class="ai-track">
+      ${player(e.track.audio, "stream")}
+      <div class="strip" data-duration="${e.duration}" role="slider" aria-label="Timeline">${e.items.map(it =>
+        `<span class="seg seg-${it.todo === "answer" ? "answer" : it.todo === "wait" ? "wait" : "silent"}" style="left:${pct(it.s, e.duration)};width:${pct(it.e - it.s, e.duration)}" title="${esc(it.item)}"></span>`
+      ).join("")}${e.track.replies.map(r => `<span class="mark ${MARK[r.outcome]}" style="left:${pct(r.t, e.duration)}"></span>`).join("")}<span class="playhead"></span></div>
+      ${inputs(e.items.map(it => `<li><span class="num">${(it.at ?? it.s).toFixed(1)} s</span> <span class="q-item">${esc(it.item)}</span>${it.text ? ` ${hok(it.text, it.en)}` : ""}</li>`))}
+      <ul class="replies">${e.track.replies.map(r => `<li class="${ROW[r.outcome]}">${seek(r.t)}${reply(r.text, r.en)}</li>`).join("")}</ul>
+    </div></div>`;
+
+  const offlineEx = e => `<div class="pair-side">
+    <p class="pair-lang">${verdictTag(e)}</p>
+    ${player(e.audio, "input")}
+    ${inputs(e.lines.map(l => `<li><span class="q-item">${esc(l.role)}</span> ${l.text ? hok(l.text, l.en) : ""}</li>`))}
+    ${e.ref ? `<p class="qa-ref"><span class="who">reference</span>${esc(e.ref)}</p>` : ""}
+    <ul class="qa-replies"><li>${reply(e.text, e.en)}</li></ul>
+  </div>`;
+
+  const n0 = aiSections.length + 2;
+  document.querySelector("#sections").insertAdjacentHTML("beforeend", `
+    <section class="model-section" id="quick-qa">
+      <h2><span class="sample-number">${String(n0).padStart(2, "0")}</span> Spoken QA, three Hokkien tunes</h2>
+      <div class="pairs">${aiQuick.qa.examples.map(qaPair).join("")}</div>
+    </section>
+    <section class="model-section" id="quick-cats">
+      <h2><span class="sample-number">${String(n0 + 1).padStart(2, "0")}</span> ${esc(names.v2f)}, by category</h2>
+      ${aiQuick.cats.map(c => `<div class="part">
+        <h3>${esc(c.num)} · ${esc(c.name)} · ${c.mode}</h3>
+        <div class="pair-sides">${c.examples.map(e => (e.kind === "online" ? onlineEx(e) : offlineEx(e))).join("")}</div>
+      </div>`).join("")}
+    </section>`);
+}
+
 let activeAudio;
 const fmt = sec => `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, "0")}`;
 
@@ -236,7 +297,7 @@ document.querySelectorAll(".ai-track").forEach(trackNode => {
   trackNode.querySelectorAll(".seek").forEach(b => b.addEventListener("click", () => playAt(parseFloat(b.dataset.t))));
 });
 
-document.querySelectorAll(".pair .player").forEach(node => {
+document.querySelectorAll(".player").forEach(node => {
   if (node.closest(".ai-track")) return;
   const audio = node.querySelector("audio"), progress = node.querySelector(".progress"), time = node.querySelector(".time");
   const button = node.querySelector(".play");
