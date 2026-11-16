@@ -1,58 +1,6 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f4f1e9" />
-    <meta name="description" content="AudioInteraction-3B in English and after fine-tuning on Singapore Hokkien: does it answer on time, and is the answer right?" />
-    <title>AudioInteraction Timing Test</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="audiointeraction.css" />
-  </head>
-  <body>
-    <div class="scroll-line" aria-hidden="true"></div>
-    <header class="masthead">
-      <a class="wordmark" href="index.html">Samples—Display</a>
-      <span id="count"></span>
-    </header>
-
-    <main id="top">
-      <section class="intro">
-        <h1>When does AudioInteraction answer, and is it right?</h1>
-        <p>
-          AudioInteraction-3B is a streaming voice model. It hears audio in 400 ms chunks and decides each time
-          whether to <strong>speak</strong> or <strong>stay silent</strong>. Below: the released model in English
-          (the baseline), then the same model fine-tuned on Singapore Hokkien (the Hokkien tune), then both side by side on the
-          same questions. Each one gets two tests.
-        </p>
-        <ol class="intro-tests">
-          <li><strong>Online (streaming):</strong> 26 eval questions inside longer audio, with digital silence in the pauses. The model decides by itself when to speak. Does it reply right after the question, and is the reply right?</li>
-          <li><strong>Offline (forced reply):</strong> 24 of those questions, with the reply forced at the end of each question. It doesn't choose when to speak, so this shows only what it says.</li>
-        </ol>
-        <p class="legend">
-          <span class="li"><span class="label label-answers">correct</span>answers the question</span>
-          <span class="li"><span class="label label-on_topic">on topic</span>right topic, wrong or no answer</span>
-          <span class="li"><span class="label label-off_topic">wrong</span>off topic, or no reply on time</span>
-        </p>
-        <p class="legend">
-          <span class="li"><span class="key key-answer"></span>question (should answer)</span>
-          <span class="li"><span class="key key-wait"></span>first half of a question (should wait)</span>
-          <span class="li"><span class="key key-silent"></span>should stay silent</span>
-          <span class="li"><span class="key key-noise"></span>noise clip</span>
-          <span class="li"><span class="dot dot-hit"></span>reply on time</span>
-          <span class="li"><span class="dot dot-wrong"></span>reply at the wrong moment</span>
-        </p>
-        <p class="legend-note">
-          Labels come from an LLM judge that compares each reply with one reference answer. Hokkien replies have a
-          machine-translated English line under them. Click a timeline or a timestamp to jump there.
-        </p>
-      </section>
-
-      <div id="sections"></div>
-    </main>
-
-    <script src="audiointeraction-data.js"></script>
-    <script src="audiointeraction-quick-data.js"></script>
-    <script src="audiointeraction.js"></script>
-  </body>
-</html>
+<meta charset="UTF-8" />
+<meta http-equiv="refresh" content="0; url=audiointeraction/" />
+<link rel="canonical" href="audiointeraction/" />
+<title>Samples—Display</title>
+<a href="audiointeraction/">audiointeraction/</a>
